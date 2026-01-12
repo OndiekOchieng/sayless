@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { CircleDashed, CircleDotDashed, NotebookPen } from "lucide-vue-next";
+import { CircleDashed} from "lucide-vue-next";
 import { RouterLink } from "vue-router";
 
 const templates = [

@@ -44,7 +44,7 @@ const pricingPlans = [
   <div id="pricing" class="min-h-screen text-white py-24 pt-12 md:pt-8 px-6">
     <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 mx-auto">
       <div
-        v-for="{ title, description, price, perks, duration } in pricingPlans"
+        v-for="{ title, price, perks, duration } in pricingPlans"
         :key="title"
         class="rounded-lg border border-white p-12 space-y-8"
       >
@@ -59,7 +59,12 @@ const pricingPlans = [
             <p class="text-white/60 flex items-center justify-center">
               <Clock class="mr-1" /> {{ duration }}
             </p>
-            <p v-if="title === 'Annual'" class="text-white/60 flex items-center justify-center "><CheckLineIcon class="mr-1" /><span>Recommended</span></p>
+            <p
+              v-if="title === 'Annual'"
+              class="text-white/60 flex items-center justify-center"
+            >
+              <CheckLineIcon class="mr-1" /><span>Recommended</span>
+            </p>
           </div>
         </div>
 
