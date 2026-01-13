@@ -3,7 +3,7 @@ import { ref, onMounted } from "vue";
 import { toPng } from "html-to-image";
 import { Download } from "lucide-vue-next";
 
-const postText = ref("Your text, formatted perfectly for WhatsApp Status.");
+const postText = ref("");
 
 const currentTime = ref("");
 
@@ -32,23 +32,26 @@ const downloadStatus = async () => {
 onMounted(updateTime);
 </script>
 <template>
-  <section class="space-y-6 bg-[#1e1e1e] p-6 rounded-2xl border border-white/5">
-    <h2 class="text-xl font-bold mb-4">Customize</h2>
+  <section class="space-y-6 bg-black p-6 rounded-2xl border border-white/50">
+    <h2 class="text-xl flex items-center font-bold mb-4 text-green-400">
+      Plain Noir
+    </h2>
     <div>
-      <label class="block text-xs text-gray-400 mb-1 ml-1">Message</label>
+      <label class="block text-sm text-gray-400 mb-2 ml-1">Message</label>
       <textarea
         v-model="postText"
-        rows="5"
-        class="w-full bg-black/40 border border-white/10 rounded-lg p-4 focus:border-green-500 outline-none transition resize-none"
+        placeholder="Enter a message..."
+        rows="4"
+        class="w-full bg-black/40 border border-white/50 rounded-lg p-4 focus:border-green-500 outline-none transition resize-none"
       ></textarea>
     </div>
 
     <button
       @click="downloadStatus"
-      class="w-full flex justify-center bg-green-500 hover:bg-green-400 text-black font-black py-4 rounded-xl shadow-lg shadow-green-500/20 transition-transform active:scale-95"
+      class="w-full flex justify-center items-center bg-green-500 hover:bg-green-400 text-white tracking-wider font-black py-3 rounded-xl shadow-lg shadow-green-500/20 transition-transform active:scale-95"
     >
-      Download Status
-      <Download class="text-black ml-2" />
+      Download
+      <Download class="ml-1" />
     </button>
   </section>
 
@@ -58,10 +61,10 @@ onMounted(updateTime);
       class="w-90 h-160 bg-black relative flex flex-col p-8 overflow-hidden shadow-2xl"
     >
       <div class="h-full flex flex-col justify-center items-center text-center">
-        <div
-          class="leading-tight text-start text-white px-4 blur-[.5px]"
-        >
-          {{ postText || "Minimal text status." }}
+        <div class="leading-tight text-start text-white px-4 blur-[.3px]">
+          <p class="whitespace-pre-wrap">
+            {{ postText || "What feels uncertain is often the doorway to something original." }}
+          </p>
         </div>
         <!-- <div
             class="absolute bottom-10 opacity-20 text-[10px] tracking-[0.5em] uppercase text-white"

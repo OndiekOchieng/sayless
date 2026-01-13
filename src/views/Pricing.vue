@@ -41,21 +41,22 @@ const pricingPlans = [
 </script>
 
 <template>
-  <div id="pricing" class="min-h-screen text-white py-24 pt-12 md:pt-8 px-6">
+  <div id="pricing" class="min-h-screen text-white py-24 pt-16 md:pt-16 px-6">
     <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 mx-auto">
       <div
         v-for="{ title, price, perks, duration } in pricingPlans"
         :key="title"
-        class="rounded-lg border border-white p-12 space-y-8"
+        :class=" title === 'Annual' ? 'bg-black ': '' "
+        class="rounded-lg border border-white p-12"
       >
-        <h2 class="text-center uppercase tracking-wider text-green-400">
+        <h2 class="text-center uppercase tracking-wider text-green-400 mb-1">
           {{ title }}
         </h2>
 
         <div class="text-center space-y-2">
           <div class="text-5xl">KES {{ price }}</div>
           <!-- <p class="text-white/60">{{ description }}</p> -->
-          <div class="flex justify-center gap-4">
+          <div class="flex justify-center gap-4 mb-4">
             <p class="text-white/60 flex items-center justify-center">
               <Clock class="mr-1" /> {{ duration }}
             </p>
@@ -76,7 +77,8 @@ const pricingPlans = [
 
         <div class="space-y-4 pt-4">
           <button
-            class="w-full rounded-lg px-8 py-3 flex items-center justify-center bg-white text-black tracking-wider hover:opacity-90 transition-opacity duration-150"
+          disabled="true"
+            class="w-full cursor-not-allowed rounded-lg px-8 py-3 flex items-center justify-center bg-white text-black tracking-wider hover:opacity-90 transition-opacity duration-150"
           >
             <span>Pay Now</span>
             <img

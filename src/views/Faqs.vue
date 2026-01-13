@@ -11,7 +11,7 @@ const faqs = [
   },
   {
     question: "Is the payment really one-time?",
-    answer: "Yes. Pay once and get lifetime access.",
+    answer: "No depending on your plan, you get monthly, annual, decade access.",
   },
   {
     question: "How do payments work?",
@@ -29,9 +29,9 @@ const faqs = [
 </script>
 
 <template>
-  <div id="faq" className="min-h-screen text-white pt-12 md:pt-8 px-6">
+  <div id="faq" className="min-h-screen text-white pt-16 md:pt-16 px-6">
     <div className="max-w-2xl mx-auto">
-      <h2 className="text-center uppercase tracking-wider mb-16">FAQ</h2>
+      <h2 title="Frequently asked questions" className="text-center text-2xl tracking-wider mb-8">FAQ's</h2>
 
       <div>
         <!-- Faq item -->
@@ -42,7 +42,7 @@ const faqs = [
           <button
             className="w-full py-6 text-left text-white hover:text-white/80 transition-colors duration-150 flex justify-between items-center"
           >
-            <span>{{ question }}</span>
+            <span @click="isOpen = !isOpen">{{ question }}</span>
             <button @click="isOpen = !isOpen">
               <span className="text-white/40" v-if="isOpen"><ChevronUp /></span>
               <span className="text-white/40" v-else><ChevronDown /></span>

@@ -2,20 +2,8 @@
 import { CircleDashed, Menu, X } from "lucide-vue-next";
 import { ref } from "vue";
 import { RouterLink } from "vue-router";
-const links = [
-  {
-    name: "templates",
-    path: "/templates",
-  },
-  {
-    name: "pricing",
-    path: "/pricing",
-  },
-  {
-    name: "faqs",
-    path: "/faqs",
-  },
-];
+import { links } from "../data";
+
 
 const isOpen = ref(false);
 </script>
@@ -35,7 +23,8 @@ const isOpen = ref(false);
           <div class="ml-10 flex items-center space-x-8 capitalize">
             <RouterLink
               v-for="({ name, path }, _) in links"
-              exactActiveClass="text-black"
+              activeClass="text-black font-semibold "
+              class="transition"
               :key="name"
               :to="path"
               >{{ name }}</RouterLink
@@ -65,7 +54,7 @@ const isOpen = ref(false);
       >
         <RouterLink
           class="block py-2 hover:text-gold/90 transition capitalize"
-          exactActiveClass="text-black font-semibold transition"
+          activeClass="text-black font-semibold transition"
           v-for="{ path, name } in links"
           @click="isOpen = false"
           :key="name"

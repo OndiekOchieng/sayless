@@ -1,31 +1,10 @@
 <script setup lang="ts">
-import { CircleDashed} from "lucide-vue-next";
+import { CircleDashed, SendHorizonal } from "lucide-vue-next";
 import { RouterLink } from "vue-router";
-
-const templates = [
-  { name: "plain noir", path: "/templates/plain" },
-  {
-    name: "twitter style",
-    path: "/templates/twitter",
-  },
-];
-const links = [
-  {
-    name: "templates",
-    path: "/templates",
-  },
-  {
-    name: "pricing",
-    path: "/pricing",
-  },
-  {
-    name: "faqs",
-    path: "/faqs",
-  },
-];
+import { links, templates } from "../data";
 </script>
 <template>
-  <footer class=" py-12">
+  <footer class="py-12 bg-black">
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
       <div class="grid grid-cols-1 md:grid-cols-4 gap-8">
         <div>
@@ -78,9 +57,10 @@ const links = [
               class="bg-gray-800 text-white px-4 py-2 rounded-l-lg focus:outline-none w-full"
             />
             <button
-              class="bg-green-500 text-white px-4 py-2 rounded-r-lg hover:bg-green-600 transition duration-300"
+              disabled="true"
+              class="bg-green-500 cursor-not-allowed text-white px-4 py-2 rounded-r-lg hover:bg-green-600 transition duration-300"
             >
-              <i class="fas fa-paper-plane"></i>
+              <SendHorizonal />
             </button>
           </div>
         </div>
