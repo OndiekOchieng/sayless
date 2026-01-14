@@ -5,6 +5,7 @@ import Pricing from "../views/Pricing.vue";
 import Faqs from "../views/Faqs.vue";
 import Templates from "../views/Templates.vue";
 import Notepad from "../components/templates/Notepad.vue";
+import NotFound from "../views/NotFound.vue";
 
 const routes = [
   {
@@ -31,8 +32,8 @@ const routes = [
       {
         path: "notepad",
         component: Notepad,
-        name: "notepad"
-      }
+        name: "notepad",
+      },
     ],
   },
   {
@@ -44,6 +45,11 @@ const routes = [
     path: "/faqs",
     component: Faqs,
     name: "faqs",
+  },
+  {
+    path: "/:pathMatch(.*)*",
+    name: "NotFound",
+    component: NotFound,
   },
 ];
 

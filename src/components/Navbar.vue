@@ -1,9 +1,8 @@
 <script setup lang="ts">
-import { CircleDashed, Menu, X } from "lucide-vue-next";
+import { Menu, X } from "lucide-vue-next";
 import { ref } from "vue";
 import { RouterLink } from "vue-router";
 import { links } from "../data";
-
 
 const isOpen = ref(false);
 </script>
@@ -14,9 +13,13 @@ const isOpen = ref(false);
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
       <div class="flex justify-between items-center">
         <div class="shrink-0 flex items-center">
-          <CircleDashed class="mr-1 text-red-500" :size="28" />
+          <!-- <CircleDashed class="mr-1 text-red-500" :size="20" /> -->
+          <img src="/images/logo.png" class="mr-1 align-super" width="20" alt="Kenyan flag">
+
           <span class="text-white text-xl font-bold gradient-text">
             Sayless
+            <span class="text-xs align-super text-red-600">254</span>
+            <!-- <img src="/images/flag.png" class="ml-1 align-super" width="16" alt="Kenyan flag"> -->
           </span>
         </div>
         <div class="hidden md:block">

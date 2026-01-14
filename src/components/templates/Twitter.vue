@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { ref, onMounted, onUnmounted } from "vue";
 import { toPng } from "html-to-image";
-import { Download, LucideCheckCircle, Plus } from "lucide-vue-next";
+import { Download, Plus } from "lucide-vue-next";
 import { useTemplateStore } from "../../store";
 
 // const imgScale = ref(1);
@@ -154,9 +154,15 @@ onUnmounted(() => {
               class="font-semibold leading-tight text-white opacity-80 flex items-center capitalize"
             >
               {{ store.userName || "Username" }}
-              <LucideCheckCircle
+              <!-- <LucideCheckCircle
                 class="text-blue-400 ml-1 opacity-100"
                 :size="14"
+              /> -->
+              <img
+                src="/images/check.png"
+                width="16"
+                class="mt-1 ml-0.5"
+                alt="Check mark"
               />
             </div>
             <div class="text-gray-500 text-sm lowercase">

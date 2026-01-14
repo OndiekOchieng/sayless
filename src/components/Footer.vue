@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { CircleDashed, SendHorizonal } from "lucide-vue-next";
+import { SendHorizonal } from "lucide-vue-next";
 import { RouterLink } from "vue-router";
 import { links, templates } from "../data";
 </script>
@@ -11,8 +11,18 @@ import { links, templates } from "../data";
           <h3
             class="text-white text-2xl gradient-text font-bold mb-4 font-oswald flex items-center"
           >
-            <CircleDashed class="mr-1 text-red-500" :size="28" />
-            Sayless
+            <!-- <CircleDashed class="mr-1 text-red-500" :size="28" /> -->
+            <img
+              src="/images/logo.png"
+              class="mr-1 align-super"
+              width="24"
+              alt="logo"
+            />
+            <span>
+              Sayless
+
+              <span class="text-xs align-super text-red-600">254</span>
+            </span>
           </h3>
           <p class="text-gray-400">
             A minimalist tool for writing intentional WhatsApp text statuses.
