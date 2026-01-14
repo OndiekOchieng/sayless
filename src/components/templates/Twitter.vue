@@ -161,7 +161,7 @@ onUnmounted(() => {
               <img
                 src="/images/check.png"
                 width="16"
-                class="mt-1 ml-0.5"
+                class="ml-0.5"
                 alt="Check mark"
               />
             </div>
