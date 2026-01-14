@@ -1,9 +1,11 @@
 <script setup lang="ts">
-import { ref, onMounted } from "vue";
+import { ref, onMounted, onUnmounted } from "vue";
 import { toPng } from "html-to-image";
 import { Download } from "lucide-vue-next";
+import { useTemplateStore } from "../../store";
 
-const postText = ref("");
+const store = useTemplateStore();
+const postText = ref(store.message);
 
 const currentTime = ref("");
 
@@ -30,6 +32,10 @@ const downloadStatus = async () => {
 };
 
 onMounted(updateTime);
+onUnmounted(() => {
+  store.message = "";
+  postText.value = "";
+});
 </script>
 <template>
   <section class="space-y-6 bg-black p-6 rounded-2xl border border-white/50">
@@ -63,7 +69,10 @@ onMounted(updateTime);
       <div class="h-full flex flex-col justify-center items-center text-center">
         <div class="leading-tight text-start text-white px-4 blur-[.3px]">
           <p class="whitespace-pre-wrap">
-            {{ postText || "What feels uncertain is often the doorway to something original." }}
+            {{
+              postText ||
+              "The quick brown fox jumped over the fence."
+            }}
           </p>
         </div>
         <!-- <div

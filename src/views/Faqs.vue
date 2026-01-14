@@ -43,10 +43,10 @@ const faqs = [
             className="w-full py-6 text-left text-white hover:text-white/80 transition-colors duration-150 flex justify-between items-center"
           >
             <span @click="isOpen = !isOpen">{{ question }}</span>
-            <button @click="isOpen = !isOpen">
+            <span @click="isOpen = !isOpen">
               <span className="text-white/40" v-if="isOpen"><ChevronUp /></span>
               <span className="text-white/40" v-else><ChevronDown /></span>
-            </button>
+            </span>
           </button>
           <div v-if="isOpen" className="pb-6 text-white/60 leading-relaxed">
             {{ answer }}

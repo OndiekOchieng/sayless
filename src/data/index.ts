@@ -19,4 +19,8 @@ export const templates = [
     name: "twitter style",
     path: "/templates/twitter",
   },
+  {
+    name: "notepad",
+    path: "/templates/notepad"
+  }
 ];

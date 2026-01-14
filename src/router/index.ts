@@ -4,6 +4,7 @@ import Twitter from "../components/templates/Twitter.vue";
 import Pricing from "../views/Pricing.vue";
 import Faqs from "../views/Faqs.vue";
 import Templates from "../views/Templates.vue";
+import Notepad from "../components/templates/Notepad.vue";
 
 const routes = [
   {
@@ -27,6 +28,11 @@ const routes = [
         component: Twitter,
         name: "twitter",
       },
+      {
+        path: "notepad",
+        component: Notepad,
+        name: "notepad"
+      }
     ],
   },
   {

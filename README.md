@@ -289,3 +289,172 @@ const downloadStatus = async () => {
 
 onMounted(updateTime);
 </script>
+
+
+<!--  -->
+<!--  -->
+<!--  -->
+<script setup lang="ts">
+import { ref, computed, onMounted, onUnmounted } from "vue";
+import { toPng } from "html-to-image";
+import { Download } from "lucide-vue-next";
+import { useTemplateStore } from "../../store";
+
+const store = useTemplateStore();
+
+const username = ref(store.userName || "");
+const postText = ref(store.message || "");
+const currentTime = ref("");
+
+/* === CONSTANTS (single source of truth) === */
+const LINE_HEIGHT = 30;          // MUST match gradient
+const FONT_SIZE = 22;
+const BASELINE_OFFSET = 6;       // Patrick Hand baseline fix
+const CANVAS_HEIGHT = 640;
+const CANVAS_PADDING = 24;       // p-6
+
+const updateTime = () => {
+  const now = new Date();
+  currentTime.value = now.toLocaleTimeString([], {
+    hour: "2-digit",
+    minute: "2-digit",
+  });
+};
+
+const handleLocalStorage = () => {
+  store.message = postText.value;
+  store.userName = username.value;
+};
+
+/* === LINE-SNAPPED VERTICAL CENTERING === */
+const centeredPaddingTop = computed(() => {
+  if (!postText.value.trim()) {
+    return BASELINE_OFFSET;
+  }
+
+  // Count wrapped lines by splitting on newline
+  const lines = postText.value.split("\n").length;
+
+  const textHeight = lines * LINE_HEIGHT;
+  const freeSpace =
+    CANVAS_HEIGHT - CANVAS_PADDING * 2 - textHeight;
+
+  // Snap to nearest full line to keep alignment
+  const snappedOffset =
+    Math.floor(freeSpace / 2 / LINE_HEIGHT) * LINE_HEIGHT;
+
+  return snappedOffset + BASELINE_OFFSET;
+});
+
+const downloadStatus = async () => {
+  const element = document.getElementById("status-canvas");
+  if (!element) return;
+
+  const dataUrl = await toPng(element, { pixelRatio: 3 });
+  const link = document.createElement("a");
+  link.download = `Sayless-${currentTime.value}.png`;
+  link.href = dataUrl;
+  link.click();
+};
+
+onMounted(updateTime);
+
+onUnmounted(() => {
+  store.message = "";
+});
+
+/* === BACKGROUND STYLES === */
+const linesStyle = `
+  background-image:
+    repeating-linear-gradient(
+      to bottom,
+      transparent 0px,
+      transparent ${LINE_HEIGHT - 2}px,
+      rgba(158,193,230,0.55) ${LINE_HEIGHT - 1}px,
+      transparent ${LINE_HEIGHT}px
+    );
+`;
+
+const noiseStyle = `
+  background-image:
+    url("data:image/svg+xml;utf8,
+      <svg xmlns='http://www.w3.org/2000/svg' width='120' height='120'>
+        <filter id='n'>
+          <feTurbulence type='fractalNoise' baseFrequency='0.8' numOctaves='4'/>
+        </filter>
+        <rect width='120' height='120' filter='url(%23n)'/>
+      </svg>");
+`;
+</script>
+
+<template>
+  <!-- Controls -->
+  <section class="space-y-6 bg-black p-6 rounded-2xl border border-white/50">
+    <h2 class="text-xl font-bold text-green-400">Notepad Style</h2>
+
+    <input
+      v-model="username"
+      @input="handleLocalStorage"
+      type="text"
+      placeholder="Enter Username"
+      class="w-full bg-black/40 border border-white/50 rounded-lg p-2
+             outline-none focus:border-green-500"
+    />
+
+    <textarea
+      v-model="postText"
+      @input="handleLocalStorage"
+      placeholder="Enter a message..."
+      rows="4"
+      class="w-full bg-black/40 border border-white/50 rounded-lg p-4
+             resize-none outline-none focus:border-green-500"
+    />
+
+    <button
+      @click="downloadStatus"
+      class="w-full bg-green-500 hover:bg-green-400 flex items-center
+             justify-center gap-2 text-white font-black py-3
+             rounded-xl shadow-lg shadow-green-500/20
+             transition active:scale-95"
+    >
+      Download <Download />
+    </button>
+  </section>
+
+  <!-- Canvas -->
+  <section class="flex justify-center mt-10">
+    <div
+      id="status-canvas"
+      class="relative w-[360px] h-[640px] p-6 overflow-hidden
+             bg-[#f6f4ef] rounded-lg shadow-xl"
+      :style="linesStyle"
+    >
+      <!-- Paper grain -->
+      <div
+        class="absolute inset-0 pointer-events-none opacity-[0.06]"
+        :style="noiseStyle"
+      />
+
+      <!-- Text -->
+      <div
+        class="relative z-10 text-container"
+        :style="{ paddingTop: centeredPaddingTop + 'px' }"
+      >
+        {{ postText || "Lord, please\nHeal the places\nin my memory\nthat replay the hurt." }}
+      </div>
+    </div>
+  </section>
+</template>
+
+<style scoped>
+.text-container {
+  color: #2f4fa1;
+  font-family: "Patrick Hand", "Comic Neue", cursive;
+
+  font-size: 22px;
+  line-height: 30px;
+
+  white-space: pre-wrap;
+  margin: 0;
+}
+</style>

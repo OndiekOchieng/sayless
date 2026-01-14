@@ -5,6 +5,24 @@
   src: url("/fonts/MinSans-Regular.ttf");
 }
 
+@font-face {
+  font-family: "Andelion Script";
+  src: url("/fonts/Andelion Script.otf");
+}
+
+@font-face {
+  font-family: "Michelle";
+  src: url("/fonts/michelle.ttf");
+}
+@font-face {
+  font-family: "Reid";
+  src: url("/fonts/QEDavidReid.ttf");
+}
+@font-face {
+  font-family: "PatrickHand";
+  src: url("/fonts/PatrickHand-Regular.ttf");
+}
+
 body {
   font-family: "MinSans";
   color: white;

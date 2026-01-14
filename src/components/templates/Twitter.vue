@@ -1,15 +1,17 @@
 <script setup lang="ts">
-import { ref, onMounted } from "vue";
+import { ref, onMounted, onUnmounted } from "vue";
 import { toPng } from "html-to-image";
 import { Download, LucideCheckCircle, Plus } from "lucide-vue-next";
+import { useTemplateStore } from "../../store";
 
-const username = ref("");
-const handle = ref("");
-const postText = ref("");
-const profileImg = ref("/images/logo.png");
 // const imgScale = ref(1);
 const currentDate = ref("");
 const currentTime = ref("");
+const store = useTemplateStore();
+let profileImg = ref("/images/johndoe.jpg");
+const username = ref(store.userName);
+const handle = ref(store.handle);
+const postText = ref("");
 
 const updateTime = () => {
   const now = new Date();
@@ -28,7 +30,23 @@ const handleFileUpload = (e: Event) => {
   const input = e.target as HTMLInputElement;
   if (!input.files || !input.files[0]) return;
   const file = input.files[0];
-  if (file) profileImg.value = URL.createObjectURL(file);
+  if (file) {
+    profileImg.value = URL.createObjectURL(file);
+    console.log("Yellow");
+    const reader = new FileReader();
+    reader.onload = () => {
+      store.profileImage = reader.result as string;
+    };
+    reader.readAsDataURL(file);
+  } else {
+    console.error("Error uploading photo");
+  }
+};
+
+const handleLocalStorage = () => {
+  store.message = postText.value;
+  store.handle = handle.value;
+  store.userName = username.value;
 };
 
 const downloadStatus = async () => {
@@ -41,7 +59,14 @@ const downloadStatus = async () => {
   link.click();
 };
 
-onMounted(updateTime);
+onMounted(() => {
+  updateTime;
+});
+
+onUnmounted(() => {
+  store.message = "";
+  postText.value = "";
+});
 </script>
 <template>
   <section class="space-y-6 bg-black p-6 rounded-2xl border border-white/50">
@@ -54,7 +79,7 @@ onMounted(updateTime);
         >
           <!-- :style="{ transform: `scale(${imgScale})` }" -->
           <img
-            :src="profileImg"
+            :src="store.profileImage"
             class="w-full h-full object-cover blur-[3px]"
           />
           <p class="absolute top-1/2 left-1/2 transform -translate-1/2">
@@ -62,7 +87,7 @@ onMounted(updateTime);
           </p>
           <input
             type="file"
-            @change="handleFileUpload"
+            @input="handleFileUpload"
             class="absolute inset-0 opacity-0 cursor-pointer"
           />
         </div>
@@ -76,12 +101,14 @@ onMounted(updateTime);
       <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
         <input
           v-model="username"
+          @input="handleLocalStorage"
           type="text"
           placeholder="Enter Username"
           class="w-full bg-black/40 border border-white/50 rounded-lg p-2 outline-none focus:border-green-500 transition"
         />
         <input
           v-model="handle"
+          @input="handleLocalStorage"
           type="text"
           placeholder="Enter handle"
           class="w-full bg-black/40 border border-white/50 rounded-lg p-2 outline-none focus:border-green-500 transition"
@@ -93,6 +120,7 @@ onMounted(updateTime);
       <label class="block text-sm text-gray-400 mb-2 ml-1">Message</label>
       <textarea
         v-model="postText"
+        @input="handleLocalStorage"
         placeholder="Enter a message..."
         rows="4"
         class="w-full bg-black/40 border border-white/50 rounded-lg p-4 focus:border-green-500 outline-none transition resize-none"
@@ -113,30 +141,35 @@ onMounted(updateTime);
       id="status-canvas"
       class="w-90 h-160 bg-black relative flex flex-col p-8 overflow-hidden shadow-2xl"
     >
-      <div class="h-full flex flex-col justify-center space-y-4">
+      <div class="h-full flex flex-col justify-center space-y-1">
         <div class="flex items-center gap-3">
           <div
             class="w-12 h-12 rounded-full overflow-hidden border border-white/10"
           >
             <!-- :style="{ transform: `scale(${imgScale})` }" -->
-            <img :src="profileImg" class="w-full h-full object-cover" />
+            <img :src="store.profileImage" class="w-full h-full object-cover" />
           </div>
           <div>
             <div
-              class="font-bold leading-tight text-white opacity-80 flex items-center capitalize"
+              class="font-semibold leading-tight text-white opacity-80 flex items-center capitalize"
             >
-              {{ username || "Username" }}
-              <LucideCheckCircle class="text-blue-500 ml-1" :size="16" />
+              {{ store.userName || "Username" }}
+              <LucideCheckCircle
+                class="text-blue-400 ml-1 opacity-100"
+                :size="14"
+              />
             </div>
             <div class="text-gray-500 text-sm lowercase">
-              @{{ handle || "handle" }}
+              @{{ store.handle || "handle" }}
             </div>
           </div>
         </div>
         <div
-          class="text-lg leading-snug text-white font-normal wrap-break-word py-2 blur-[.4px]"
+          class="text-xl leading-snug text-white font-normal wrap-break-word py-2"
         >
-          <p class=" whitespace-pre-wrap">{{ postText || "What feels uncertain is often the doorway to something original." }}</p>
+          <p class="whitespace-pre-wrap blur-[.3px]">
+            {{ store.message || "The quick brown fox jumped over the fence." }}
+          </p>
         </div>
         <!-- <div class="text-gray-500 text-sm pt-2 flex justify-between">
           <span class="flex items-center">
