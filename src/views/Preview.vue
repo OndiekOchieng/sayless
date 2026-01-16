@@ -37,22 +37,22 @@ const updateTime = () => {
 };
 
 // Notepad Template
-const RULE_HEIGHT = 30;
+// const RULE_HEIGHT = 30;
 
-const linesStyle = `
-  background-image:
-    repeating-linear-gradient(
-      to bottom,
-      transparent 0px,
-      transparent ${RULE_HEIGHT - 2}px,
-      rgba(158,193,230,0.55) ${RULE_HEIGHT - 1}px,
-      transparent ${RULE_HEIGHT}px
-    );
-`;
+// const linesStyle = `
+//   background-image:
+//     repeating-linear-gradient(
+//       to bottom,
+//       transparent 0px,
+//       transparent ${RULE_HEIGHT - 2}px,
+//       rgba(158,193,230,0.55) ${RULE_HEIGHT - 1}px,
+//       transparent ${RULE_HEIGHT}px
+//     );
+// `;
 
 const noiseStyle = `
   background-image:
-    url("/images/noise.png");
+    url("/images/paper.jpg");
 `;
 //
 
@@ -157,14 +157,14 @@ const backRoute = computed(() => {
       v-if="$route.params.name === 'notepad'"
       class="flex justify-center mt-12 md:mt-10"
     >
+    <!-- :style="linesStyle" -->
       <div
         id="status-canvas"
-        class="relative max-w-90 min-w-72 p-8 overflow-hidden bg-[#f6f4ef] shadow-xl"
-        :style="linesStyle"
-      >
+        class="relative flex items-center max-w-90 min-w-72 aspect-9/16 p-8 overflow-hidden bg-[#f6f4ef] shadow-xl"
+        >
         <!-- Paper grain -->
         <div
-          class="absolute inset-0 pointer-events-none opacity-20 blur-xs"
+          class="absolute inset-0 pointer-events-none brightness-90"
           :style="noiseStyle"
         />
 

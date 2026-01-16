@@ -111,6 +111,7 @@ onMounted(() => {
         v-model="message"
         placeholder="Enter a message..."
         rows="4"
+        maxlength="350"
         class="w-full bg-black/40 border border-white/50 rounded-lg p-4 focus:border-green-500 outline-none transition resize-none"
       ></textarea>
     </div>

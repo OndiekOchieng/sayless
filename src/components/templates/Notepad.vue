@@ -34,22 +34,22 @@ onMounted(updateTime);
 
 
 /* 🔑 RULED LINE SPACING = TEXT LINE HEIGHT */
-const RULE_HEIGHT = 30;
+// const RULE_HEIGHT = 30;
 
-const linesStyle = `
-  background-image:
-    repeating-linear-gradient(
-      to bottom,
-      transparent 0px,
-      transparent ${RULE_HEIGHT - 2}px,
-      rgba(158,193,230,0.55) ${RULE_HEIGHT - 1}px,
-      transparent ${RULE_HEIGHT}px
-    );
-`;
+// const linesStyle = `
+//   background-image:
+//     repeating-linear-gradient(
+//       to bottom,
+//       transparent 0px,
+//       transparent ${RULE_HEIGHT - 2}px,
+//       rgba(158,193,230,0.55) ${RULE_HEIGHT - 1}px,
+//       transparent ${RULE_HEIGHT}px
+//     );
+// `;
 
 const noiseStyle = `
   background-image:
-    url("/images/noise.png");
+    url("/images/paper.jpg");
 `;
 </script>
 
@@ -63,6 +63,7 @@ const noiseStyle = `
       v-model="message"
       placeholder="Enter a message..."
       rows="4"
+      maxlength="500"
       class="w-full bg-black/40 border border-white/50 rounded-lg p-4 resize-none outline-none focus:border-green-500"
     />
 
@@ -86,19 +87,19 @@ const noiseStyle = `
 
   <!-- Canvas -->
   <section class="flex justify-center mt-10">
+    <!-- :style="linesStyle" -->
     <div
       id="status-canvas"
-      class="relative max-w-90 min-w-72 p-8 overflow-hidden bg-[#f6f4ef] shadow-xl transition"
-      :style="linesStyle"
+      class="relative flex justify-center items-center max-w-90 min-w-72 p-8 aspect-9/16 overflow-hidden bg-[#f6f4ef] shadow-xl transition"
     >
       <!-- Paper grain -->
       <div
-        class="absolute inset-0 pointer-events-none opacity-20 blur-xs"
+        class="absolute inset-0 pointer-events-none brightness-90"
         :style="noiseStyle"
       />
 
       <!-- Text -->
-      <div class="relative z-10 text-container whitespace-pre-wrap text-xl">
+      <div class="relative z-10 text-container whitespace-pre-wrap text-2xl">
         {{ store.message || "The quick brown fox jumped over the fence" }}
       </div>
     </div>
