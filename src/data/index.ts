@@ -20,7 +20,7 @@ export const templates = [
     path: "/templates/twitter",
   },
   {
-    name: "notepad",
-    path: "/templates/notepad"
+    name: "paper",
+    path: "/templates/paper"
   }
 ];

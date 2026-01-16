@@ -58,7 +58,7 @@ const noiseStyle = `
   <section
     class="space-y-6 bg-black p-4 sm:p-6 rounded-2xl border border-white/50"
   >
-    <h2 class="text-xl font-bold text-green-400">Notepad Style</h2>
+    <h2 class="text-xl font-bold text-green-400">Crumpled Paper</h2>
     <textarea
       v-model="message"
       placeholder="Enter a message..."
@@ -69,7 +69,7 @@ const noiseStyle = `
 
     <div class="flex gap-2">
       <RouterLink
-        to="/templates/notepad/preview"
+        to="/templates/paper/preview"
         class="w-full flex items-center justify-center gap-1 px-6 py-3 bg-transparent text-white border border-white rounded-lg hover:bg-neutral-800 hover:text-white hover:border-neutral-600 transition-colors"
       >
         <Eye class="max-sm:hidden" />

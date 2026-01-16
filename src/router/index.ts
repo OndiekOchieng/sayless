@@ -4,9 +4,9 @@ import Twitter from "../components/templates/Twitter.vue";
 import Tip from "../views/Tip.vue";
 import Faqs from "../views/Faqs.vue";
 import Templates from "../views/Templates.vue";
-import Notepad from "../components/templates/Notepad.vue";
 import NotFound from "../views/NotFound.vue";
 import Preview from "../views/Preview.vue";
+import Paper from "../components/templates/Paper.vue";
 
 const routes = [
   {
@@ -31,9 +31,9 @@ const routes = [
         name: "twitter",
       },
       {
-        path: "notepad",
-        component: Notepad,
-        name: "notepad",
+        path: "paper",
+        component: Paper,
+        name: "paper ",
       },
     ],
   },

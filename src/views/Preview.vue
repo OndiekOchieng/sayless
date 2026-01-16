@@ -36,7 +36,7 @@ const updateTime = () => {
   });
 };
 
-// Notepad Template
+// Paper Template
 // const RULE_HEIGHT = 30;
 
 // const linesStyle = `
@@ -152,9 +152,9 @@ const backRoute = computed(() => {
       </div>
     </section>
 
-    <!-- Notepad Template -->
+    <!-- Paper Template -->
     <section
-      v-if="$route.params.name === 'notepad'"
+      v-if="$route.params.name === 'paper'"
       class="flex justify-center mt-12 md:mt-10"
     >
     <!-- :style="linesStyle" -->
