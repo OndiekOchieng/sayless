@@ -7,10 +7,10 @@ import Footer from './components/Footer.vue';
 
 <template>
    <div class="">
-    <Navbar />
+    <Navbar v-if="$route.name !== 'preview'" />
     <div class=" text-white py-4 px-3 md:p-8">
       <RouterView />
     </div>
-    <Footer />
+    <Footer v-if="$route.name !== 'preview'" />
   </div>
 </template>

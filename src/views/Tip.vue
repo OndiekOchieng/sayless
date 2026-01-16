@@ -1,9 +1,20 @@
 <script setup lang="tsx">
 import { HandCoins, Heart } from "lucide-vue-next";
+
+const pay = async () => {
+  await fetch("/api/mpesa/stkpush", {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify({
+      phone: "2547XXXXXXXX",
+      amount: 50,
+    }),
+  });
+};
 </script>
 
 <template>
-  <div class="pt-16 md:pt-16 px-6">
+  <div class="pt-16 md:pt-16">
     <!--  -->
     <!--  -->
     <!-- M-Pesa Form -->
@@ -50,25 +61,29 @@ import { HandCoins, Heart } from "lucide-vue-next";
         </div>
 
         <button
-          class="w-full flex justify-center items-center bg-green-500 hover:bg-green-400 text-white tracking-wider font-black py-3 px-6 rounded-xl shadow-lg shadow-green-500/20 transition-transform active:scale-95"
+          @click="pay"
+          disabled="true"
+          class="w-full flex cursor-not-allowed justify-center items-center bg-green-500 hover:bg-green-400 text-white tracking-wider font-black py-3 px-6 rounded-xl shadow-lg shadow-green-500/20 transition-transform active:scale-95"
         >
           Send Tip
           <HandCoins class="ml-1 max-sm:hidden" />
         </button>
 
-        <p class="text-gray-500 text-sm text-center">
+        <p class="text-gray-500 text-sm text-center mb-2">
           You'll receive an M-Pesa STK prompt
         </p>
       </form>
     </section>
   </div>
   <!-- Gratitude Section -->
-  <section class="text-center">
-    <div class="flex items-center justify-center mb-2">
-      <Heart class="text-green-500 w-5 h-5 mr-1" />
-      <p class="text-gray-400">Thank you for supporting independent tools.</p>
-    </div>
-  </section>
+  <div class="flex justify-center">
+    <p class="flex items-start mb-2">
+      <Heart class="text-green-500 w-6 h-6 mr-1" />
+      <span class="text-white">
+        Thank you for supporting <span class="font-bold">Sayless</span>.
+      </span>
+    </p>
+  </div>
 
   <!-- Success State (hidden by default) -->
   <div id="successState" class="text-center hidden py-8">

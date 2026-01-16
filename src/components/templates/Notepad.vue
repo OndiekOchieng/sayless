@@ -98,7 +98,7 @@ const noiseStyle = `
       />
 
       <!-- Text -->
-      <div class="relative z-10 text-container whitespace-pre-wrap text-2xl">
+      <div class="relative z-10 text-container whitespace-pre-wrap text-xl">
         {{ store.message || "The quick brown fox jumped over the fence" }}
       </div>
     </div>
@@ -108,16 +108,16 @@ const noiseStyle = `
 <style>
 .text-container {
   color: #2f4fa1;
-  /* font-family: "Patrick Hand", "Comic Neue", cursive; */
-  font-family: "Reid";
+  font-family:"Reid", "Patrick Hand", "Comic Neue", cursive;
 
   line-height: 30px;
 
   white-space: pre-wrap;
 
   /* 🔑 BASELINE ALIGNMENT FIX */
-  padding-top: 4px;
+  padding-top: 6px;
 
   margin: 0;
+  font-weight: 500;
 }
 </style>

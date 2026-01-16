@@ -62,7 +62,7 @@ const backRoute = computed(() => {
 </script>
 
 <template>
-  <div class="py-12">
+  <div class="">
     <!-- Plain Template Preview -->
     <section
       v-if="$route.params.name === 'plain'"
@@ -169,7 +169,7 @@ const backRoute = computed(() => {
         />
 
         <!-- Text -->
-        <div class="relative z-10 text-container whitespace-pre-wrap text-2xl">
+        <div class="relative z-10 text-container whitespace-pre-wrap text-xl">
           {{ store.message || "The quick brown fox jumped over the fence" }}
         </div>
       </div>
