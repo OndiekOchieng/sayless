@@ -1,17 +1,15 @@
 <script setup lang="ts">
-import { ref, onMounted, onUnmounted } from "vue";
+import { ref, onMounted } from "vue";
 import { toPng } from "html-to-image";
-import { Download, Plus } from "lucide-vue-next";
+import { Download, Eye, Plus } from "lucide-vue-next";
 import { useTemplateStore } from "../../store";
+import { storeToRefs } from "pinia";
 
-// const imgScale = ref(1);
 const currentDate = ref("");
 const currentTime = ref("");
 const store = useTemplateStore();
+const { message, userName, handle } = storeToRefs(store);
 let profileImg = ref("/images/johndoe.jpg");
-const username = ref(store.userName);
-const handle = ref(store.handle);
-const postText = ref("");
 
 const updateTime = () => {
   const now = new Date();
@@ -23,6 +21,7 @@ const updateTime = () => {
   currentTime.value = now.toLocaleTimeString([], {
     hour: "2-digit",
     minute: "2-digit",
+    second: "2-digit",
   });
 };
 
@@ -43,17 +42,12 @@ const handleFileUpload = (e: Event) => {
   }
 };
 
-const handleLocalStorage = () => {
-  store.message = postText.value;
-  store.handle = handle.value;
-  store.userName = username.value;
-};
-
 const downloadStatus = async () => {
   const element = document.getElementById("status-canvas");
   if (!element) return;
   const dataUrl = await toPng(element, { pixelRatio: 3 });
   const link = document.createElement("a");
+  updateTime();
   link.download = `Sayless-${currentTime.value}.png`;
   link.href = dataUrl;
   link.click();
@@ -62,14 +56,11 @@ const downloadStatus = async () => {
 onMounted(() => {
   updateTime;
 });
-
-onUnmounted(() => {
-  store.message = "";
-  postText.value = "";
-});
 </script>
 <template>
-  <section class="space-y-6 bg-black p-6 rounded-2xl border border-white/50">
+  <section
+    class="space-y-6 bg-black p-4 sm:p-6 rounded-2xl border border-white/50"
+  >
     <h2 class="text-xl font-bold mb-4 text-green-400">Twitter Style</h2>
 
     <div class="space-y-4">
@@ -100,15 +91,13 @@ onUnmounted(() => {
 
       <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
         <input
-          v-model="username"
-          @input="handleLocalStorage"
+          v-model="userName"
           type="text"
           placeholder="Enter Username"
           class="w-full bg-black/40 border border-white/50 rounded-lg p-2 outline-none focus:border-green-500 transition"
         />
         <input
           v-model="handle"
-          @input="handleLocalStorage"
           type="text"
           placeholder="Enter handle"
           class="w-full bg-black/40 border border-white/50 rounded-lg p-2 outline-none focus:border-green-500 transition"
@@ -119,27 +108,35 @@ onUnmounted(() => {
     <div>
       <label class="block text-sm text-gray-400 mb-2 ml-1">Message</label>
       <textarea
-        v-model="postText"
-        @input="handleLocalStorage"
+        v-model="message"
         placeholder="Enter a message..."
         rows="4"
         class="w-full bg-black/40 border border-white/50 rounded-lg p-4 focus:border-green-500 outline-none transition resize-none"
       ></textarea>
     </div>
 
-    <button
-      @click="downloadStatus"
-      class="w-full bg-green-500 tracking-wider hover:bg-green-400 flex justify-center items-center text-white font-black py-3 rounded-xl shadow-lg shadow-green-500/20 transition-transform active:scale-95"
-    >
-      Download
-      <Download class="ml-1" />
-    </button>
+    <div class="flex gap-2">
+      <RouterLink
+        to="/templates/twitter/preview"
+        class="flex w-full items-center justify-center gap-1 px-6 py-3 bg-transparent text-white border border-white rounded-lg hover:bg-neutral-800 hover:text-white hover:border-neutral-600 transition-colors"
+      >
+        <Eye class="max-sm:hidden" />
+        <span>Preview</span>
+      </RouterLink>
+      <button
+        @click="downloadStatus"
+        class="flex w-full justify-center items-center bg-green-500 hover:bg-green-400 text-white tracking-wider font-black py-3 px-6 rounded-xl shadow-lg shadow-green-500/20 transition-transform active:scale-95"
+      >
+        Download
+        <Download class="ml-1 max-sm:hidden" />
+      </button>
+    </div>
   </section>
 
   <section class="flex flex-col items-center font-sans">
     <div
       id="status-canvas"
-      class="w-90 h-160 bg-black relative flex flex-col p-8 overflow-hidden shadow-2xl"
+      class="max-w-90 min-w-72 transition aspect-9/16 bg-black relative flex flex-col p-8 overflow-hidden shadow-2xl"
     >
       <div class="h-full flex flex-col justify-center space-y-1">
         <div class="flex items-center gap-3">
@@ -174,7 +171,7 @@ onUnmounted(() => {
           class="text-xl leading-snug text-white font-normal wrap-break-word py-2"
         >
           <p class="whitespace-pre-wrap blur-[.3px]">
-            {{ store.message || "The quick brown fox jumped over the fence." }}
+            {{ message || "The quick brown fox jumped over the fence." }}
           </p>
         </div>
         <!-- <div class="text-gray-500 text-sm pt-2 flex justify-between">

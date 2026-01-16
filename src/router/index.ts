@@ -1,11 +1,12 @@
 import { createWebHistory, createRouter } from "vue-router";
 import Plain from "../components/templates/Plain.vue";
 import Twitter from "../components/templates/Twitter.vue";
-import Pricing from "../views/Pricing.vue";
+import Tip from "../views/Tip.vue";
 import Faqs from "../views/Faqs.vue";
 import Templates from "../views/Templates.vue";
 import Notepad from "../components/templates/Notepad.vue";
 import NotFound from "../views/NotFound.vue";
+import Preview from "../views/Preview.vue";
 
 const routes = [
   {
@@ -15,7 +16,7 @@ const routes = [
   {
     path: "/templates",
     name: "templates",
-    redirect: "/templates/plain",
+    redirect: "/templates/twitter",
     component: Templates,
     // default: Plain,
     children: [
@@ -37,9 +38,14 @@ const routes = [
     ],
   },
   {
-    path: "/pricing",
-    component: Pricing,
-    name: "pricing",
+    path: "/templates/:name/preview",
+    component: Preview,
+    name: "preview",
+  },
+  {
+    path: "/tip",
+    component: Tip,
+    name: "tip",
   },
   {
     path: "/faqs",

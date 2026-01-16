@@ -8,7 +8,7 @@ const isOpen = ref(false);
 </script>
 <template>
   <nav
-    class="fixed left-1 right-1 top-1 z-50 py-2 md:rounded-lg rounded-lg bg-green-500 bg-opacity-80 backdrop-filter backdrop-blur-2xl"
+    class="fixed left-1 right-1 top-1 z-50 py-2 md:rounded-lg rounded-lg bg-green-500 transtion bg-opacity-80 backdrop-filter backdrop-blur-2xl"
   >
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
       <div class="flex justify-between items-center">
@@ -23,7 +23,7 @@ const isOpen = ref(false);
           </span>
         </div>
         <div class="hidden md:block">
-          <div class="ml-10 flex items-center space-x-8 capitalize">
+          <div class="ml-10 flex items-center space-x-8">
             <RouterLink
               v-for="({ name, path }, _) in links"
               activeClass="text-black font-semibold "
@@ -47,7 +47,7 @@ const isOpen = ref(false);
       </div>
     </div>
     <!-- Mobile menu -->
-    <div v-if="isOpen">
+    <div class="transition" v-if="isOpen">
       <div
         :class="[
           isOpen

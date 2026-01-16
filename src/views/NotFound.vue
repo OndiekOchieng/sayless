@@ -1,5 +1,5 @@
 <script setup lang="tsx">
-import { ArrowRight, Ban,  NotepadTextIcon } from "lucide-vue-next";
+import { Ban, ChevronLeft, PenTool } from "lucide-vue-next";
 </script>
 
 <template>
@@ -49,21 +49,21 @@ import { ArrowRight, Ban,  NotepadTextIcon } from "lucide-vue-next";
         <!-- {/* Primary Action */} -->
         <!-- onClick="{handleGoHome}" -->
         <RouterLink
-          to="/templates"
-          class="flex items-center justify-center gap-2 px-6 py-3 bg-white text-neutral-900 rounded-lg hover:bg-neutral-100 transition-colors font-medium"
+          to="/"
+          class="flex items-center justify-center gap-1 px-6 py-3 bg-white text-neutral-900 rounded-lg hover:bg-neutral-100 transition-colors font-medium"
         >
+          <ChevronLeft class="" />
           <span>Go back home</span>
-          <ArrowRight class="" />
         </RouterLink>
 
         <!-- {/* Secondary Action */} -->
         <!-- onClick="{handleCreateStatus}" -->
         <RouterLink
-          to="/"
+          to="/templates"
           class="flex items-center justify-center gap-2 px-6 py-3 bg-transparent text-white border border-white rounded-lg hover:bg-neutral-800 hover:text-white hover:border-neutral-600 transition-colors"
         >
           <span>Create a status</span>
-          <NotepadTextIcon />
+          <PenTool />
         </RouterLink>
       </div>
 

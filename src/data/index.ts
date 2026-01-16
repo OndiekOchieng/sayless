@@ -1,14 +1,14 @@
 export const links = [
   {
-    name: "templates",
+    name: "Templates",
     path: "/templates",
   },
   {
-    name: "pricing",
-    path: "/pricing",
+    name: "Leave a Tip",
+    path: "/tip",
   },
   {
-    name: "faqs",
+    name: "Faqs",
     path: "/faqs",
   },
 ];

@@ -1,13 +1,12 @@
 <script setup lang="ts">
-import { ref, onMounted, onUnmounted } from "vue";
+import { ref, onMounted } from "vue";
 import { toPng } from "html-to-image";
-import { Download } from "lucide-vue-next";
+import { Download, Eye } from "lucide-vue-next";
 import { useTemplateStore } from "../../store";
+import { storeToRefs } from "pinia";
 
 const store = useTemplateStore();
-
-// const username = ref(store.userName);
-const postText = ref(store.message);
+const { message } = storeToRefs(store);
 const currentTime = ref("");
 
 const updateTime = () => {
@@ -15,12 +14,8 @@ const updateTime = () => {
   currentTime.value = now.toLocaleTimeString([], {
     hour: "2-digit",
     minute: "2-digit",
+    second: "numeric",
   });
-};
-
-const handleLocalStorage = () => {
-  store.message = postText.value;
-//   store.userName = username.value;
 };
 
 const downloadStatus = async () => {
@@ -29,6 +24,7 @@ const downloadStatus = async () => {
 
   const dataUrl = await toPng(element, { pixelRatio: 3 });
   const link = document.createElement("a");
+  updateTime();
   link.download = `Sayless-${currentTime.value}.png`;
   link.href = dataUrl;
   link.click();
@@ -36,10 +32,6 @@ const downloadStatus = async () => {
 
 onMounted(updateTime);
 
-onUnmounted(() => {
-  store.message = "";
-  postText.value = "";
-});
 
 /* 🔑 RULED LINE SPACING = TEXT LINE HEIGHT */
 const RULE_HEIGHT = 30;
@@ -63,38 +55,40 @@ const noiseStyle = `
 
 <template>
   <!-- Controls -->
-  <section class="space-y-6 bg-black p-6 rounded-2xl border border-white/50">
+  <section
+    class="space-y-6 bg-black p-4 sm:p-6 rounded-2xl border border-white/50"
+  >
     <h2 class="text-xl font-bold text-green-400">Notepad Style</h2>
-
-    <!-- <input
-      v-model="username"
-      @input="handleLocalStorage"
-      type="text"
-      placeholder="Enter Username"
-      class="w-full bg-black/40 border border-white/50 rounded-lg p-2 outline-none focus:border-green-500"
-    /> -->
-
     <textarea
-      v-model="postText"
-      @input="handleLocalStorage"
+      v-model="message"
       placeholder="Enter a message..."
       rows="4"
       class="w-full bg-black/40 border border-white/50 rounded-lg p-4 resize-none outline-none focus:border-green-500"
     />
 
-    <button
-      @click="downloadStatus"
-      class="w-full bg-green-500 hover:bg-green-400 flex items-center justify-center gap-2 text-white font-black py-3 rounded-xl shadow-lg shadow-green-500/20 active:scale-95 transition"
-    >
-      Download <Download />
-    </button>
+    <div class="flex gap-2">
+      <RouterLink
+        to="/templates/notepad/preview"
+        class="w-full flex items-center justify-center gap-1 px-6 py-3 bg-transparent text-white border border-white rounded-lg hover:bg-neutral-800 hover:text-white hover:border-neutral-600 transition-colors"
+      >
+        <Eye class="max-sm:hidden" />
+        <span>Preview</span>
+      </RouterLink>
+      <button
+        @click="downloadStatus"
+        class="w-full flex justify-center items-center bg-green-500 hover:bg-green-400 text-white tracking-wider font-black py-3 px-6 rounded-xl shadow-lg shadow-green-500/20 transition-transform active:scale-95"
+      >
+        Download
+        <Download class="ml-1 max-sm:hidden" />
+      </button>
+    </div>
   </section>
 
   <!-- Canvas -->
   <section class="flex justify-center mt-10">
     <div
       id="status-canvas"
-      class="relative w-90 p-8 overflow-hidden bg-[#f6f4ef] shadow-xl"
+      class="relative max-w-90 min-w-72 p-8 overflow-hidden bg-[#f6f4ef] shadow-xl transition"
       :style="linesStyle"
     >
       <!-- Paper grain -->
@@ -104,16 +98,14 @@ const noiseStyle = `
       />
 
       <!-- Text -->
-      <div
-        class="relative z-10 text-container whitespace-pre-wrap text-2xl"
-      >
+      <div class="relative z-10 text-container whitespace-pre-wrap text-2xl">
         {{ store.message || "The quick brown fox jumped over the fence" }}
       </div>
     </div>
   </section>
 </template>
 
-<style scoped>
+<style>
 .text-container {
   color: #2f4fa1;
   /* font-family: "Patrick Hand", "Comic Neue", cursive; */
