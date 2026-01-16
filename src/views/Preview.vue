@@ -160,7 +160,7 @@ const backRoute = computed(() => {
     <!-- :style="linesStyle" -->
       <div
         id="status-canvas"
-        class="relative flex items-center max-w-90 min-w-72 aspect-9/16 p-8 overflow-hidden bg-[#f6f4ef] shadow-xl"
+        class="relative flex justify-center items-center max-w-90 min-w-72 aspect-9/16 p-8 overflow-hidden bg-[#f6f4ef] shadow-xl"
         >
         <!-- Paper grain -->
         <div
