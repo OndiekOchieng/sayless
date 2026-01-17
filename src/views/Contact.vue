@@ -4,16 +4,16 @@ import { socials } from "../data";
 </script>
 
 <template>
-  <main class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
+  <main class="max-w-7xl mx-auto py-16">
     <!--  -->
     <!-- Form -->
     <!-- Contact Section -->
     <div class="grid grid-cols-1 lg:grid-cols-2 gap-12">
       <div>
-        <h2 class="text-3xl md:text-4xl font-bold text-white mb-6">
+        <h2 class="text-2xl sm:text-3xl font-bold text-white mb-2">
           Get In <span class="gradient-text">Touch</span>
         </h2>
-        <p class="text-gray-400 mb-8">
+        <p class="text-gray-400 mb-0">
           Have questions, suggestions or feedback about our templates? We would
           love to hear from you.
         </p>
@@ -65,7 +65,7 @@ import { socials } from "../data";
         </div>
       </div>
       <!-- Contact Form -->
-      <div class="bg-black rounded-2xl shadow-sm p-4 sm:p-8">
+      <div class="bg-black border border-white/50 rounded-2xl shadow-sm px-4 py-8 sm:p-8">
         <form id="contactForm" class="space-y-6">
           <div>
             <label for="name" class="label">Name</label>
