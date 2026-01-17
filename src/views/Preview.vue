@@ -70,7 +70,7 @@ const backRoute = computed(() => {
     >
       <div
         id="status-canvas"
-        class="max-w-90 min-w-72 aspect-9/16 bg-black relative flex flex-col p-8 overflow-hidden shadow-2xl"
+        class="max-w-90 min-w-72 aspect-9/16 bg-black relative flex flex-col p-6 overflow-hidden shadow-2xl"
       >
         <div
           class="h-full flex flex-col justify-center items-center text-center"
@@ -178,10 +178,10 @@ const backRoute = computed(() => {
       <RouterLink
         :to="backRoute"
 
-        class="flex w-full items-center justify-center gap-1 px-6 py-3 bg-transparent text-white border border-white rounded-lg hover:bg-neutral-800 hover:text-white hover:border-neutral-600 transition-colors"
+        class="flex w-full items-center justify-center px-6 py-3 bg-transparent text-white border border-white rounded-lg hover:bg-neutral-800 hover:text-white hover:border-neutral-600 transition-colors"
       >
         <ChevronLeft class="max-sm:hidden" />
-        <span>Go Back</span>
+        <span>Back</span>
       </RouterLink>
       <button
         @click="downloadStatus"

@@ -34,7 +34,7 @@ import { links, templates } from "../data";
             <li v-for="{ name, path } in links" :key="name">
               <RouterLink
                 :to="path"
-                class="text-gray-400 capitalize hover:text-green-400"
+                class="text-gray-400 hover:text-green-400"
               >
                 {{ name }}
               </RouterLink>
@@ -48,7 +48,7 @@ import { links, templates } from "../data";
               <RouterLink
                 v-for="{ name, path } in templates"
                 :to="path"
-                class="text-gray-400 hover:text-green-400"
+                class="text-gray-400 hover:text-green-400 capitalize"
               >
                 {{ name }}
               </RouterLink>

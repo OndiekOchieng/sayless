@@ -2,11 +2,12 @@ import { createWebHistory, createRouter } from "vue-router";
 import Plain from "../components/templates/Plain.vue";
 import Twitter from "../components/templates/Twitter.vue";
 import Tip from "../views/Tip.vue";
-import Faqs from "../views/Faqs.vue";
+// import Faqs from "../views/Faqs.vue";
 import Templates from "../views/Templates.vue";
 import NotFound from "../views/NotFound.vue";
 import Preview from "../views/Preview.vue";
 import Paper from "../components/templates/Paper.vue";
+import Contact from "../views/Contact.vue";
 
 const routes = [
   {
@@ -48,9 +49,9 @@ const routes = [
     name: "tip",
   },
   {
-    path: "/faqs",
-    component: Faqs,
-    name: "faqs",
+    path: "/contact",
+    component: Contact,
+    name: "contact",
   },
   {
     path: "/:pathMatch(.*)*",

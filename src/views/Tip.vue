@@ -32,11 +32,6 @@ const pay = async () => {
             >Phone number</label
           >
           <div class="flex">
-            <!-- <span
-              class="inline-flex items-center px-3 rounded-l-md border border-r-0 border-white/40 bg-secondary text-gray-300 text-sm"
-            >
-              +254
-            </span> -->
             <input
               type="tel"
               id="phone"

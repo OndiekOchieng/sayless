@@ -8,8 +8,8 @@ export const links = [
     path: "/tip",
   },
   {
-    name: "Faqs",
-    path: "/faqs",
+    name: "Contact",
+    path: "/contact",
   },
 ];
 
@@ -21,6 +21,19 @@ export const templates = [
   },
   {
     name: "paper",
-    path: "/templates/paper"
-  }
+    path: "/templates/paper",
+  },
+];
+
+export const socials = [
+  {
+    name: "instagram",
+    iconSrc: "/images/ig.png",
+    path: "https://www.instagram.com/pragmacia",
+  },
+  {
+    name: "whatsapp",
+    iconSrc: "/images/wa.png",
+    path: "https://api.whatsapp.com/send?phone=254742814436",
+  },
 ];

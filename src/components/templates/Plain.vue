@@ -72,7 +72,7 @@ onMounted(updateTime);
   <section class="flex flex-col items-center font-sans">
     <div
       id="status-canvas"
-      class="max-w-90 min-w-72 transition aspect-9/16 bg-black relative flex flex-col p-8 overflow-hidden shadow-2xl"
+      class="max-w-90 min-w-72 transition aspect-9/16 bg-black relative flex flex-col p-6 overflow-hidden shadow-2xl"
     >
       <div class="h-full flex flex-col justify-center items-center text-center">
         <div class="leading-tight text-start text-white px-4 blur-[.3px]">

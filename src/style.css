@@ -11,16 +11,8 @@
 }
 
 @font-face {
-  font-family: "Michelle";
-  src: url("/fonts/michelle.ttf");
-}
-@font-face {
   font-family: "Reid";
   src: url("/fonts/QEDavidReid.ttf");
-}
-@font-face {
-  font-family: "PatrickHand";
-  src: url("/fonts/PatrickHand-Regular.ttf");
 }
 
 body {
@@ -33,4 +25,16 @@ body {
 
 @theme {
   --font-minsans: "MinSans";
+}
+
+.label {
+  @apply block text-sm text-gray-400 mb-2 ml-1;
+}
+
+.input {
+  @apply w-full bg-black/40 border border-white/50 rounded-lg p-2 outline-none focus:border-green-500 transition;
+}
+
+.btn2 {
+  @apply flex w-full justify-center items-center bg-green-500 hover:bg-green-400 text-white tracking-wider font-black py-3 px-6 rounded-xl shadow-lg shadow-green-500/20 transition-transform active:scale-95;
 }
