@@ -131,8 +131,8 @@ onMounted(() => {
       class="max-w-90 min-w-72 transition aspect-9/16 bg-black relative flex flex-col p-8 overflow-hidden shadow-2xl"
     >
       <div class="h-full flex flex-col justify-center space-y-1">
-        <div class="leading-snug text-white font-normal wrap-break-word py-2">
-          <p class="whitespace-pre-wrap blur-[.3px] mb-4">
+        <div class="leading-snug text-white py-2">
+          <p class="whitespace-pre-wrap blur-[.3px]">
             {{ message || "The quick brown fox jumped over the fence." }}
           </p>
         </div>
