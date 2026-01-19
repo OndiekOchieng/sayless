@@ -96,7 +96,7 @@ const copyText = async () => {
         >
           <X />
         </button>
-        <p class="flex flex-col gap-2 px-4">
+        <p class="flex flex-col gap-6 px-4">
           <span class="flex gap-2 items-center text-red-500"
             ><Ban class="" /><span class="">Unable to process transaction</span>
           </span>
