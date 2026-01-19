@@ -4,10 +4,12 @@ import { useTemplateStore } from "../store";
 import { toPng } from "html-to-image";
 import { ChevronLeft, Download } from "lucide-vue-next";
 import { useRoute } from "vue-router";
+import { storeToRefs } from "pinia";
 
 const currentTime = ref("");
 const currentDate = ref("");
 const store = useTemplateStore();
+const { posterImage } = storeToRefs(store);
 const route = useRoute();
 
 //
@@ -65,7 +67,7 @@ const backRoute = computed(() => {
   <div class="">
     <!-- Plain Template Preview -->
     <section
-      v-if="$route.params.name === 'plain'"
+      v-if="$route.params.name === 'minimal'"
       class="flex flex-col items-center font-sans"
     >
       <div
@@ -77,7 +79,10 @@ const backRoute = computed(() => {
         >
           <div class="leading-tight text-start text-white px-4 blur-[.3px]">
             <p class="whitespace-pre-wrap">
-              {{ store.message || "The quick brown fox jumped over the fence" }}
+              {{
+                store.minimalMessage ||
+                "The quick brown fox jumped over the fence"
+              }}
             </p>
           </div>
           <!-- <div
@@ -135,7 +140,8 @@ const backRoute = computed(() => {
           >
             <p class="whitespace-pre-wrap blur-[.3px]">
               {{
-                store.message || "The quick brown fox jumped over the fence."
+                store.twitterMessage ||
+                "The quick brown fox jumped over the fence."
               }}
             </p>
           </div>
@@ -157,11 +163,11 @@ const backRoute = computed(() => {
       v-if="$route.params.name === 'paper'"
       class="flex justify-center mt-12 md:mt-10"
     >
-    <!-- :style="linesStyle" -->
+      <!-- :style="linesStyle" -->
       <div
         id="status-canvas"
         class="relative flex justify-center items-center max-w-90 min-w-72 aspect-9/16 p-8 overflow-hidden bg-[#f6f4ef] shadow-xl"
-        >
+      >
         <!-- Paper grain -->
         <div
           class="absolute inset-0 pointer-events-none brightness-90"
@@ -170,14 +176,43 @@ const backRoute = computed(() => {
 
         <!-- Text -->
         <div class="relative z-10 text-container whitespace-pre-wrap text-xl">
-          {{ store.message || "The quick brown fox jumped over the fence" }}
+          {{
+            store.paperMessage || "The quick brown fox jumped over the fence"
+          }}
         </div>
       </div>
     </section>
+    <!-- Poster preview -->
+    <section
+      v-if="$route.params.name === 'poster'"
+      class="flex flex-col items-center font-sans"
+    >
+      <div
+        id="status-canvas"
+        class="max-w-90 min-w-72 transition aspect-9/16 bg-black relative flex flex-col p-8 overflow-hidden shadow-2xl"
+      >
+        <div class="h-full flex flex-col justify-center space-y-1">
+          <div class="leading-snug text-white py-2">
+            <p class="whitespace-pre-wrap blur-[.3px]">
+              {{
+                store.posterMessage ||
+                "The quick brown fox jumped over the fence."
+              }}
+            </p>
+          </div>
+          <div class="flex items-center justify-center">
+            <div class="max-w-72 overflow-hidden">
+              <img :src="posterImage" class="w-full h-full object-cover" />
+            </div>
+            <div></div>
+          </div>
+        </div>
+      </div>
+    </section>
+    <!-- Download and Back Button -->
     <div class="flex mx-auto gap-2 mt-4 max-w-90 min-w-72">
       <RouterLink
         :to="backRoute"
-
         class="flex w-full items-center justify-center px-6 py-3 bg-transparent text-white border border-white rounded-lg hover:bg-neutral-800 hover:text-white hover:border-neutral-600 transition-colors"
       >
         <ChevronLeft class="max-sm:hidden" />

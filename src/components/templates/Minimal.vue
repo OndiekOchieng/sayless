@@ -6,9 +6,8 @@ import { storeToRefs } from "pinia";
 import { useTemplateStore } from "../../store";
 
 const store = useTemplateStore();
-const { maxLength } = storeToRefs(store);
+const { maxLength, minimalMessage } = storeToRefs(store);
 const currentTime = ref("");
-const message = ref("");
 
 const updateTime = () => {
   const now = new Date();
@@ -47,23 +46,25 @@ onMounted(updateTime);
       <label class="block text-sm text-gray-400 mb-2 ml-1">Message</label>
       <textarea
         :maxlength="maxLength"
-        v-model="message"
-        placeholder="Enter a message..."
+        v-model="minimalMessage"
+        placeholder="Enter a Message..."
         rows="4"
         class="w-full bg-black/40 border border-white/50 rounded-lg p-4 focus:border-green-500 outline-none transition resize-none"
       ></textarea>
       <p
         class="text-xs text-end transition"
         :class="
-          message.length > maxLength - 20 ? 'text-red-500' : 'text-white/50'
+          minimalMessage.length > maxLength - 20
+            ? 'text-red-500'
+            : 'text-white/50'
         "
       >
-        {{ message.length + " /" + maxLength }}
+        {{ minimalMessage.length + " /" + maxLength }}
       </p>
     </div>
     <div class="flex gap-2">
       <RouterLink
-        to="/templates/plain/preview"
+        to="/templates/minimal/preview"
         class="w-full flex items-center justify-center gap-1 px-6 py-3 bg-transparent text-white border border-white rounded-lg hover:bg-neutral-800 hover:text-white hover:border-neutral-600 transition-colors"
       >
         <Eye class="max-sm:hidden" />
@@ -87,7 +88,7 @@ onMounted(updateTime);
       <div class="h-full flex flex-col justify-center items-center text-center">
         <div class="leading-tight text-start text-white px-4 blur-[.3px]">
           <p class="overflow-hidden whitespace-pre-wrap">
-            {{ message || "The quick brown fox jumped over the fence." }}
+            {{ minimalMessage || "The quick brown fox jumped over the fence." }}
           </p>
         </div>
         <!-- <div

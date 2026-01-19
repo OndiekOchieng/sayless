@@ -6,8 +6,7 @@ import { useTemplateStore } from "../../store";
 import { storeToRefs } from "pinia";
 
 const store = useTemplateStore();
-const { maxLength } = storeToRefs(store);
-const message = ref("");
+const { maxLength, paperMessage } = storeToRefs(store);
 const currentTime = ref("");
 const updateTime = () => {
   const now = new Date();
@@ -60,7 +59,7 @@ const noiseStyle = `
     <h2 class="text-xl font-bold text-green-400">Crumpled Paper</h2>
     <div>
       <textarea
-        v-model="message"
+        v-model="paperMessage"
         placeholder="Enter a message..."
         rows="4"
         :maxlength="maxLength"
@@ -69,10 +68,12 @@ const noiseStyle = `
       <p
         class="text-xs text-end transition"
         :class="
-          message.length > maxLength - 20 ? 'text-red-500' : 'text-white/50'
+          paperMessage.length > maxLength - 20
+            ? 'text-red-500'
+            : 'text-white/50'
         "
       >
-        {{ message.length + " /" + maxLength }}
+        {{ paperMessage.length + " /" + maxLength }}
       </p>
     </div>
 
@@ -109,7 +110,7 @@ const noiseStyle = `
 
       <!-- Text -->
       <div class="relative z-10 text-container whitespace-pre-wrap text-xl">
-        {{ message || "The quick brown fox jumped over the fence" }}
+        {{ paperMessage || "The quick brown fox jumped over the fence" }}
       </div>
     </div>
   </section>

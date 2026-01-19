@@ -9,8 +9,7 @@ const currentDate = ref("");
 const currentTime = ref("");
 const store = useTemplateStore();
 const uploadImage = ref("");
-const message = ref("");
-const { posterImage, maxLength } = storeToRefs(store);
+const { posterImage, maxLength, posterMessage } = storeToRefs(store);
 
 const updateTime = () => {
   const now = new Date();
@@ -66,7 +65,7 @@ onMounted(() => {
     <div>
       <label class="block text-sm text-gray-400 mb-2 ml-1">Message </label>
       <textarea
-        v-model="message"
+        v-model="posterMessage"
         placeholder="Enter a message..."
         rows="3"
         :maxlength="maxLength"
@@ -75,10 +74,10 @@ onMounted(() => {
       <p
         class="text-xs text-end transition"
         :class="
-          message.length > maxLength - 20 ? 'text-red-500' : 'text-white/50'
+          posterMessage.length > maxLength - 20 ? 'text-red-500' : 'text-white/50'
         "
       >
-        {{ message.length + " /" + maxLength }}
+        {{ posterMessage.length + " /" + maxLength }}
       </p>
     </div>
 
@@ -108,7 +107,7 @@ onMounted(() => {
 
     <div class="flex gap-2">
       <RouterLink
-        to="/templates/twitter/preview"
+        to="/templates/poster/preview"
         class="flex w-full items-center justify-center gap-1 px-6 py-3 bg-transparent text-white border border-white rounded-lg hover:bg-neutral-800 hover:text-white hover:border-neutral-600 transition-colors"
       >
         <Eye class="max-sm:hidden" />
@@ -133,7 +132,7 @@ onMounted(() => {
       <div class="h-full flex flex-col justify-center space-y-1">
         <div class="leading-snug text-white py-2">
           <p class="whitespace-pre-wrap blur-[.3px]">
-            {{ message || "The quick brown fox jumped over the fence." }}
+            {{ posterMessage || "The quick brown fox jumped over the fence." }}
           </p>
         </div>
         <div class="flex items-center justify-center">

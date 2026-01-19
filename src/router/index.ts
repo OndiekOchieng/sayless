@@ -40,7 +40,7 @@ const routes = [
       {
         path: "poster",
         component: Poster,
-        name: "poster ",
+        name: "poster",
       },
     ],
   },

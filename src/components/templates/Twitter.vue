@@ -8,8 +8,7 @@ import { storeToRefs } from "pinia";
 const currentDate = ref("");
 const currentTime = ref("");
 const store = useTemplateStore();
-const { userName, handle, maxLength } = storeToRefs(store);
-const message = ref("");
+const { userName, handle, maxLength, twitterMessage } = storeToRefs(store);
 let profileImg = ref("/images/johndoe.jpg");
 
 const updateTime = () => {
@@ -108,7 +107,7 @@ onMounted(() => {
     <div>
       <label class="block text-sm text-gray-400 mb-2 ml-1">Message</label>
       <textarea
-        v-model="message"
+        v-model="twitterMessage"
         placeholder="Enter a message..."
         rows="4"
         :maxlength="maxLength"
@@ -117,10 +116,12 @@ onMounted(() => {
       <p
         class="text-xs text-end transition"
         :class="
-          message.length >= maxLength - 20 ? 'text-red-500' : 'text-white/50'
+          twitterMessage.length >= maxLength - 20
+            ? 'text-red-500'
+            : 'text-white/50'
         "
       >
-        {{ message.length + " /" + maxLength }}
+        {{ twitterMessage.length + " /" + maxLength }}
       </p>
     </div>
 
@@ -180,7 +181,7 @@ onMounted(() => {
           class="text-xl leading-snug text-white font-normal wrap-break-word py-2"
         >
           <p class="whitespace-pre-wrap blur-[.3px]">
-            {{ message || "The quick brown fox jumped over the fence." }}
+            {{ twitterMessage || "The quick brown fox jumped over the fence." }}
           </p>
         </div>
         <!-- <div class="text-gray-500 text-sm pt-2 flex justify-between">
