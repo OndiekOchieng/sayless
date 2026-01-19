@@ -1,13 +1,14 @@
 <script setup lang="ts">
-import { ref, onMounted, onUnmounted } from "vue";
+import { ref, onMounted } from "vue";
 import { toPng } from "html-to-image";
 import { Download, Eye } from "lucide-vue-next";
 import { storeToRefs } from "pinia";
 import { useTemplateStore } from "../../store";
 
 const store = useTemplateStore();
-const { message, maxLength } = storeToRefs(store);
+const { maxLength } = storeToRefs(store);
 const currentTime = ref("");
+const message = ref("");
 
 const updateTime = () => {
   const now = new Date();
@@ -34,17 +35,13 @@ const downloadStatus = async () => {
 };
 
 onMounted(updateTime);
-
-onUnmounted(() => {
-  store.$reset()
-})
 </script>
 <template>
   <section
     class="space-y-6 bg-black p-4 sm:p-6 rounded-2xl border border-white/50"
   >
     <h2 class="text-xl flex items-center font-bold mb-4 text-green-400">
-      Plain Noir
+      Minimal
     </h2>
     <div>
       <label class="block text-sm text-gray-400 mb-2 ml-1">Message</label>
@@ -89,7 +86,7 @@ onUnmounted(() => {
     >
       <div class="h-full flex flex-col justify-center items-center text-center">
         <div class="leading-tight text-start text-white px-4 blur-[.3px]">
-          <p class="overflow-hidden whitespace-pre-wrap ">
+          <p class="overflow-hidden whitespace-pre-wrap">
             {{ message || "The quick brown fox jumped over the fence." }}
           </p>
         </div>

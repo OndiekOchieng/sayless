@@ -9,7 +9,8 @@ const currentDate = ref("");
 const currentTime = ref("");
 const store = useTemplateStore();
 const uploadImage = ref("");
-const { message, posterImage, maxLength } = storeToRefs(store);
+const message = ref("");
+const { posterImage, maxLength } = storeToRefs(store);
 
 const updateTime = () => {
   const now = new Date();
@@ -72,8 +73,10 @@ onMounted(() => {
         class="w-full bg-black/40 border border-white/50 rounded-lg p-4 focus:border-green-500 outline-none transition resize-none"
       ></textarea>
       <p
-        class="text-xs  text-end transition"
-        :class="message.length > (maxLength - 20) ? 'text-red-500' : 'text-white/50'"
+        class="text-xs text-end transition"
+        :class="
+          message.length > maxLength - 20 ? 'text-red-500' : 'text-white/50'
+        "
       >
         {{ message.length + " /" + maxLength }}
       </p>
@@ -130,10 +133,10 @@ onMounted(() => {
       <div class="h-full flex flex-col justify-center space-y-1">
         <div class="leading-snug text-white font-normal wrap-break-word py-2">
           <p class="whitespace-pre-wrap blur-[.3px] mb-4">
-            {{ message||"The quick brown fox jumped over the fence." }}
+            {{ message || "The quick brown fox jumped over the fence." }}
           </p>
         </div>
-        <div class="flex items-center gap-3">
+        <div class="flex items-center justify-center">
           <div class="max-w-72 overflow-hidden">
             <img :src="posterImage" class="w-full h-full object-cover" />
           </div>

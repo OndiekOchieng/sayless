@@ -8,7 +8,8 @@ import { storeToRefs } from "pinia";
 const currentDate = ref("");
 const currentTime = ref("");
 const store = useTemplateStore();
-const { message, userName, handle, maxLength } = storeToRefs(store);
+const { userName, handle, maxLength } = storeToRefs(store);
+const message = ref("");
 let profileImg = ref("/images/johndoe.jpg");
 
 const updateTime = () => {
@@ -158,7 +159,7 @@ onMounted(() => {
             <div
               class="font-semibold leading-tight text-white opacity-80 flex items-center capitalize"
             >
-              {{ store.userName||"Username" }}
+              {{ store.userName || "Username" }}
               <!-- <LucideCheckCircle
                 class="text-blue-400 ml-1 opacity-100"
                 :size="14"

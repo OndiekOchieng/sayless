@@ -6,7 +6,8 @@ import { useTemplateStore } from "../../store";
 import { storeToRefs } from "pinia";
 
 const store = useTemplateStore();
-const { message, maxLength } = storeToRefs(store);
+const { maxLength } = storeToRefs(store);
+const message = ref("");
 const currentTime = ref("");
 const updateTime = () => {
   const now = new Date();
@@ -108,7 +109,7 @@ const noiseStyle = `
 
       <!-- Text -->
       <div class="relative z-10 text-container whitespace-pre-wrap text-xl">
-        {{ message||"The quick brown fox jumped over the fence" }}
+        {{ message || "The quick brown fox jumped over the fence" }}
       </div>
     </div>
   </section>
