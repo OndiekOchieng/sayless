@@ -1,13 +1,13 @@
 <script setup lang="tsx">
-import { HandCoins, Heart } from "lucide-vue-next";
+import { AlertCircle, HandCoins, Heart } from "lucide-vue-next";
 
 const pay = async () => {
   await fetch("/api/mpesa/stkpush", {
     method: "POST",
     headers: { "Content-Type": "application/json" },
     body: JSON.stringify({
-      phone: "2547XXXXXXXX",
-      amount: 50,
+      phone: "254796626586",
+      amount: 1,
     }),
   });
 };
@@ -67,6 +67,7 @@ const pay = async () => {
         <p class="text-gray-500 text-sm text-center mb-2">
           You'll receive an M-Pesa STK prompt
         </p>
+        <p class="bg-red-500"><AlertCircle /></p>
       </form>
     </section>
   </div>
@@ -92,12 +93,12 @@ const pay = async () => {
       Thank you <span class="text-yellow-300">💛</span>
     </h3>
     <p class="text-gray-400 mb-6">Your support keeps Sayless alive.</p>
-    <a
-      href="/"
+    <RouterLink
+      to="/"
       class="inline-block px-6 py-2 border border-white/40 rounded-md hover:bg-secondary transition duration-150"
     >
       Continue using Sayless
-    </a>
+    </RouterLink>
   </div>
 
   <!-- Error State (hidden by default) -->
