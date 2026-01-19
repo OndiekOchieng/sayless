@@ -1,5 +1,5 @@
 <script setup lang="tsx">
-import { AlertCircle, HandCoins, Heart } from "lucide-vue-next";
+import { HandCoins, Heart } from "lucide-vue-next";
 
 const pay = async () => {
   await fetch("/api/mpesa/stkpush", {
