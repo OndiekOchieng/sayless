@@ -11,7 +11,7 @@ import { templates } from "../data";
         :key="name"
         active-class="bg-[#22c55e] text-black"
         :to="path"
-        class="px-4 py-2 rounded-lg font-bold text-sm transition-all capitalize tracking-wide"
+        class="max-[360px]:px-3 px-4 py-2 rounded-lg font-bold text-sm transition-all capitalize tracking-wide"
       >
         {{ name }}
       </RouterLink>

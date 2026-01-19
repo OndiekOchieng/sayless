@@ -1,15 +1,19 @@
-<script setup lang="tsx">
-import { HandCoins, Heart } from "lucide-vue-next";
+<script setup lang="ts">
+import { Ban, Copy, HandCoins, Heart, Info, X } from "lucide-vue-next";
+import { ref } from "vue";
 
-const pay = async () => {
-  await fetch("/api/mpesa/stkpush", {
-    method: "POST",
-    headers: { "Content-Type": "application/json" },
-    body: JSON.stringify({
-      phone: "254796626586",
-      amount: 1,
-    }),
-  });
+const showToast = ref(false);
+const copiedState = ref(false);
+
+const copyText = async () => {
+  try {
+    navigator.clipboard.writeText("3547844").then(() => {
+      copiedState.value = true;
+      setTimeout(() => (copiedState.value = false), 2000);
+    });
+  } catch (err) {
+    console.error("Error copying to clipboard");
+  }
 };
 </script>
 
@@ -57,8 +61,13 @@ const pay = async () => {
 
         <!-- disabled="true" -->
         <button
-          @click="pay"
-          class="w-full flex justify-center items-center bg-green-500 hover:bg-green-400 text-white tracking-wider font-black py-3 px-6 rounded-xl shadow-lg shadow-green-500/20 transition-transform active:scale-95"
+          @click="
+            (e) => {
+              e.preventDefault();
+              showToast = true;
+            }
+          "
+          class="w-full flex justify-center items-center bg-green-500 hover:bg-green-400 tracking-wider font-black py-3 px-6 rounded-xl shadow-lg shadow-green-500/20 transition-transform active:scale-95"
         >
           Send Tip
           <HandCoins class="ml-1 max-sm:hidden" />
@@ -70,6 +79,41 @@ const pay = async () => {
         <!-- <p class="bg-red-500"><AlertCircle /></p> -->
       </form>
     </section>
+    <!--  -->
+    <div
+      v-if="showToast"
+      class="fixed inset-0 bg-black opacity-70 transition z-60"
+    ></div>
+    <!--  -->
+    <Transition name="toast">
+      <div
+        v-if="showToast"
+        class="fixed top-1 right-1 z-100 flex flex-col justify-center gap-3 rounded-lg bg-black border border-white/50 px-3 py-3 text-white shadow-xl"
+      >
+        <button
+          @click="showToast = false"
+          class="text-white hover:scale-105 ml-auto transition -pr-8"
+        >
+          <X />
+        </button>
+        <p class="flex flex-col gap-2 px-4">
+          <span class="flex gap-2 items-center text-red-500"
+            ><Ban class="" /><span class="">Unable to process transaction</span>
+          </span>
+          <span class="flex gap-2"><Info />Use Lipa na Mpesa Till Number </span>
+          <button
+            class="flex gap-2 text-green-500 hover:text-green-300 hover:cursor-pointer transition"
+            @click="copyText()"
+          >
+            <Copy />
+            <span class="text-lg underline transition">{{
+              copiedState ? "Copied" : 3547844
+            }}</span>
+          </button>
+        </p>
+        <!-- @click="close" -->
+      </div>
+    </Transition>
   </div>
   <!-- Gratitude Section -->
   <div class="flex justify-center">
@@ -116,3 +160,15 @@ const pay = async () => {
     </button>
   </div>
 </template>
+
+<style scoped>
+.toast-enter-active,
+.toast-leave-active {
+  transition: all 0.3s ease;
+}
+.toast-enter-from,
+.toast-leave-to {
+  opacity: 0;
+  transform: translateX(30px);
+}
+</style>

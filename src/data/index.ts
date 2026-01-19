@@ -14,14 +14,18 @@ export const links = [
 ];
 
 export const templates = [
-  { name: "plain noir", path: "/templates/plain" },
+  { name: "minimal", path: "/templates/minimal" },
   {
-    name: "twitter style",
+    name: "twitter",
     path: "/templates/twitter",
   },
   {
     name: "paper",
     path: "/templates/paper",
+  },
+  {
+    name: "poster",
+    path: "/templates/poster",
   },
 ];
 

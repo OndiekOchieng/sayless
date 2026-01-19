@@ -6,9 +6,8 @@ import { useTemplateStore } from "../../store";
 import { storeToRefs } from "pinia";
 
 const store = useTemplateStore();
-const { message } = storeToRefs(store);
+const { message, maxLength } = storeToRefs(store);
 const currentTime = ref("");
-
 const updateTime = () => {
   const now = new Date();
   currentTime.value = now.toLocaleTimeString([], {
@@ -58,13 +57,23 @@ const noiseStyle = `
     class="space-y-6 bg-black p-4 sm:p-6 rounded-2xl border border-white/50"
   >
     <h2 class="text-xl font-bold text-green-400">Crumpled Paper</h2>
-    <textarea
-      v-model="message"
-      placeholder="Enter a message..."
-      rows="4"
-      maxlength="500"
-      class="w-full bg-black/40 border border-white/50 rounded-lg p-4 resize-none outline-none focus:border-green-500"
-    />
+    <div>
+      <textarea
+        v-model="message"
+        placeholder="Enter a message..."
+        rows="4"
+        :maxlength="maxLength"
+        class="w-full bg-black/40 border border-white/50 rounded-lg p-4 resize-none outline-none focus:border-green-500"
+      />
+      <p
+        class="text-xs text-end transition"
+        :class="
+          message.length > maxLength - 20 ? 'text-red-500' : 'text-white/50'
+        "
+      >
+        {{ message.length + " /" + maxLength }}
+      </p>
+    </div>
 
     <div class="flex gap-2">
       <RouterLink
@@ -85,7 +94,7 @@ const noiseStyle = `
   </section>
 
   <!-- Canvas -->
-  <section class="flex justify-center mt-10">
+  <section class="flex justify-center">
     <!-- :style="linesStyle" -->
     <div
       id="status-canvas"
@@ -99,7 +108,7 @@ const noiseStyle = `
 
       <!-- Text -->
       <div class="relative z-10 text-container whitespace-pre-wrap text-xl">
-        {{ store.message || "The quick brown fox jumped over the fence" }}
+        {{ message||"The quick brown fox jumped over the fence" }}
       </div>
     </div>
   </section>

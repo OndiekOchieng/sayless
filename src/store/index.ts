@@ -10,9 +10,11 @@ export interface TemplateFields {
 export const useTemplateStore = defineStore("templateStore", {
   state: () => ({
     profileImage: "/images/logo.png",
+    posterImage: "/images/logo.png",
     userName: "",
     handle: "",
-    message: ""
+    message: "",
+    maxLength: 300,
   }),
   persist: true,
 });

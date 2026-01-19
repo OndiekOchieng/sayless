@@ -8,7 +8,7 @@ import { storeToRefs } from "pinia";
 const currentDate = ref("");
 const currentTime = ref("");
 const store = useTemplateStore();
-const { message, userName, handle } = storeToRefs(store);
+const { message, userName, handle, maxLength } = storeToRefs(store);
 let profileImg = ref("/images/johndoe.jpg");
 
 const updateTime = () => {
@@ -31,7 +31,6 @@ const handleFileUpload = (e: Event) => {
   const file = input.files[0];
   if (file) {
     profileImg.value = URL.createObjectURL(file);
-    console.log("Yellow");
     const reader = new FileReader();
     reader.onload = () => {
       store.profileImage = reader.result as string;
@@ -111,9 +110,17 @@ onMounted(() => {
         v-model="message"
         placeholder="Enter a message..."
         rows="4"
-        maxlength="350"
+        :maxlength="maxLength"
         class="w-full bg-black/40 border border-white/50 rounded-lg p-4 focus:border-green-500 outline-none transition resize-none"
       ></textarea>
+      <p
+        class="text-xs text-end transition"
+        :class="
+          message.length >= maxLength - 20 ? 'text-red-500' : 'text-white/50'
+        "
+      >
+        {{ message.length + " /" + maxLength }}
+      </p>
     </div>
 
     <div class="flex gap-2">
@@ -151,7 +158,7 @@ onMounted(() => {
             <div
               class="font-semibold leading-tight text-white opacity-80 flex items-center capitalize"
             >
-              {{ store.userName || "Username" }}
+              {{ store.userName||"Username" }}
               <!-- <LucideCheckCircle
                 class="text-blue-400 ml-1 opacity-100"
                 :size="14"

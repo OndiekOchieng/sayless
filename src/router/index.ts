@@ -1,5 +1,4 @@
 import { createWebHistory, createRouter } from "vue-router";
-import Plain from "../components/templates/Plain.vue";
 import Twitter from "../components/templates/Twitter.vue";
 import Tip from "../views/Tip.vue";
 // import Faqs from "../views/Faqs.vue";
@@ -8,6 +7,8 @@ import NotFound from "../views/NotFound.vue";
 import Preview from "../views/Preview.vue";
 import Paper from "../components/templates/Paper.vue";
 import Contact from "../views/Contact.vue";
+import Minimal from "../components/templates/Minimal.vue";
+import Poster from "../components/templates/Poster.vue";
 
 const routes = [
   {
@@ -22,9 +23,9 @@ const routes = [
     // default: Plain,
     children: [
       {
-        path: "plain",
-        component: Plain,
-        name: "plain",
+        path: "minimal",
+        component: Minimal,
+        name: "minimal",
       },
       {
         path: "twitter",
@@ -35,6 +36,11 @@ const routes = [
         path: "paper",
         component: Paper,
         name: "paper ",
+      },
+      {
+        path: "poster",
+        component: Poster,
+        name: "poster ",
       },
     ],
   },
