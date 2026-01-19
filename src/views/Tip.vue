@@ -55,10 +55,10 @@ const pay = async () => {
           />
         </div>
 
+        <!-- disabled="true" -->
         <button
           @click="pay"
-          disabled="true"
-          class="w-full flex cursor-not-allowed justify-center items-center bg-green-500 hover:bg-green-400 text-white tracking-wider font-black py-3 px-6 rounded-xl shadow-lg shadow-green-500/20 transition-transform active:scale-95"
+          class="w-full flex justify-center items-center bg-green-500 hover:bg-green-400 text-white tracking-wider font-black py-3 px-6 rounded-xl shadow-lg shadow-green-500/20 transition-transform active:scale-95"
         >
           Send Tip
           <HandCoins class="ml-1 max-sm:hidden" />
@@ -67,7 +67,7 @@ const pay = async () => {
         <p class="text-gray-500 text-sm text-center mb-2">
           You'll receive an M-Pesa STK prompt
         </p>
-        <p class="bg-red-500"><AlertCircle /></p>
+        <!-- <p class="bg-red-500"><AlertCircle /></p> -->
       </form>
     </section>
   </div>
