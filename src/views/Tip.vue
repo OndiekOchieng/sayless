@@ -4,12 +4,36 @@ import { ref } from "vue";
 
 const showToast = ref(false);
 const copiedState = ref(false);
+let interval: number | null = null;
+const duration = ref(10000);
+const progress = ref(100);
+
+const openToast = () => {
+  showToast.value = true;
+  progress.value = 100;
+  if (interval) window.clearInterval(interval);
+  const start = Date.now();
+
+  interval = window.setInterval(() => {
+    const elapsed = Date.now() - start;
+    progress.value = Math.max(0, 100 - (elapsed / duration.value) * 100);
+    if (elapsed >= duration.value) {
+      closeToast();
+    }
+  }, 50);
+};
+
+const closeToast = () => {
+  showToast.value = false;
+  if (interval) window.clearInterval(interval);
+};
 
 const copyText = async () => {
   try {
     navigator.clipboard.writeText("3547844").then(() => {
       copiedState.value = true;
       setTimeout(() => (copiedState.value = false), 2000);
+      duration.value = 2000
     });
   } catch (err) {
     console.error("Error copying to clipboard");
@@ -61,12 +85,7 @@ const copyText = async () => {
 
         <!-- disabled="true" -->
         <button
-          @click="
-            (e) => {
-              e.preventDefault();
-              showToast = true;
-            }
-          "
+          @click.prevent="openToast"
           class="w-full flex justify-center items-center bg-green-500 hover:bg-green-400 tracking-wider font-black py-3 px-6 rounded-xl shadow-lg shadow-green-500/20 transition-transform active:scale-95"
         >
           Send Tip
@@ -85,13 +104,14 @@ const copyText = async () => {
       class="fixed inset-0 bg-black opacity-70 transition z-60"
     ></div>
     <!--  -->
+    <!-- Toast -->
     <Transition name="toast">
       <div
         v-if="showToast"
         class="fixed top-1 right-1 z-100 flex flex-col justify-center gap-3 rounded-lg bg-black border border-white/50 px-3 py-3 text-white shadow-xl"
       >
         <button
-          @click="showToast = false"
+          @click="closeToast"
           class="text-white hover:scale-105 ml-auto transition -pr-8"
         >
           <X />
@@ -112,6 +132,12 @@ const copyText = async () => {
           </button>
         </p>
         <!-- @click="close" -->
+        <div class="h-1 w-full bg-white/10 rounded overflow-hidden mt-2">
+          <div
+            class="h-full bg-green-500 transition-[width] duration-75"
+            :style="{ width: progress + '%' }"
+          />
+        </div>
       </div>
     </Transition>
   </div>
