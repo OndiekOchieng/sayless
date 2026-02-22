@@ -86,8 +86,8 @@ onMounted(updateTime);
       class="max-w-90 min-w-72 transition aspect-9/16 bg-black relative flex flex-col p-6 overflow-hidden shadow-2xl"
     >
       <div class="h-full flex flex-col justify-center items-center text-center">
-        <div class="leading-tight text-start text-white px-4 blur-[.3px]">
-          <p class="overflow-hidden whitespace-pre-wrap">
+        <div class="leading-tight text-start text-white blur-[.1px]">
+          <p class="overflow-hidden whitespace-pre-wrap text-base">
             {{ minimalMessage || "The quick brown fox jumped over the fence." }}
           </p>
         </div>

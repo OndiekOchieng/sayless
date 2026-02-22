@@ -1,7 +1,6 @@
 import { createWebHistory, createRouter } from "vue-router";
 import Twitter from "../components/templates/Twitter.vue";
 import Tip from "../views/Tip.vue";
-// import Faqs from "../views/Faqs.vue";
 import Templates from "../views/Templates.vue";
 import NotFound from "../views/NotFound.vue";
 import Preview from "../views/Preview.vue";
