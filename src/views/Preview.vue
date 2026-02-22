@@ -78,7 +78,7 @@ const backRoute = computed(() => {
           class="h-full flex flex-col justify-center items-center text-center"
         >
           <div class="leading-tight text-start text-white blur-[.1px]">
-            <p class="whitespace-pre-wrap text-base">
+            <p class="whitespace-pre-wrap text-lg">
               {{
                 store.minimalMessage ||
                 "The quick brown fox jumped over the fence"
