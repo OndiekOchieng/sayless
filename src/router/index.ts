@@ -1,14 +1,14 @@
 import { createWebHistory, createRouter } from "vue-router";
-import Twitter from "../components/templates/Twitter.vue";
-import Tip from "../views/Tip.vue";
-import Templates from "../views/Templates.vue";
+import Twitter from "../components/templates/SaylessTwitter.vue";
+import Tip from "../views/SaylessTip.vue";
+import Templates from "../views/SaylessTemplates.vue";
 import NotFound from "../views/NotFound.vue";
-import Preview from "../views/Preview.vue";
-import Paper from "../components/templates/Paper.vue";
-import Contact from "../views/Contact.vue";
-import Minimal from "../components/templates/Minimal.vue";
-import Poster from "../components/templates/Poster.vue";
-import Highlight from "../components/templates/Highlight.vue";
+import Preview from "../views/SaylessPreview.vue";
+import Paper from "../components/templates/SaylessPaper.vue";
+import Contact from "../views/SaylessContact.vue";
+import Minimal from "../components/templates/SaylessMinimal.vue";
+import Poster from "../components/templates/SaylessPoster.vue";
+import Highlight from "../components/templates/SaylessHighlight.vue";
 
 const routes = [
   {
