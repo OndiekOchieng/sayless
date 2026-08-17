@@ -17,7 +17,7 @@ export const useTemplateStore = defineStore("templateStore", {
     twitterMessage: "",
     paperMessage: "",
     posterMessage: "",
-    maxLength: 300,
+    maxLength: 700,
   }),
   persist: true,
 });

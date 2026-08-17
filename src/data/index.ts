@@ -24,6 +24,10 @@ export const templates = [
     path: "/templates/paper",
   },
   {
+    name: "highlight",
+    path: "/templates/highlight",
+  },
+  {
     name: "poster",
     path: "/templates/poster",
   },

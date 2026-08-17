@@ -8,6 +8,7 @@ import Paper from "../components/templates/Paper.vue";
 import Contact from "../views/Contact.vue";
 import Minimal from "../components/templates/Minimal.vue";
 import Poster from "../components/templates/Poster.vue";
+import Highlight from "../components/templates/Highlight.vue";
 
 const routes = [
   {
@@ -34,7 +35,12 @@ const routes = [
       {
         path: "paper",
         component: Paper,
-        name: "paper ",
+        name: "paper",
+      },
+      {
+        path: "highlight",
+        component: Highlight,
+        name: "highlight",
       },
       {
         path: "poster",
