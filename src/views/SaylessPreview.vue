@@ -5,6 +5,7 @@ import { toPng } from "html-to-image";
 import { ChevronLeft, Download } from "lucide-vue-next";
 import { useRoute } from "vue-router";
 import { storeToRefs } from "pinia";
+import Highlight from "../components/templates/SaylessHighlight.vue";
 
 const currentTime = ref("");
 const currentDate = ref("");
@@ -158,22 +159,8 @@ const backRoute = computed(() => {
       </div>
     </section>
 
-    <!-- Highlight Template -->
     <section v-if="$route.params.name === 'highlight'" class="flex justify-center mt-12 md:mt-10">
-      <div id="status-canvas" class="paper relative flex aspect-square w-full max-w-lg items-center justify-center overflow-hidden px-10 py-16 shadow-xl sm:px-14">
-        <!-- Paper texture -->
-        <div class="paper-texture pointer-events-none absolute inset-0" />
-
-        <!-- Additional subtle paper lighting -->
-        <div class="paper-light pointer-events-none absolute inset-0" />
-
-        <!-- Quote -->
-        <div class="relative z-10 w-full text-center ">
-          <span class="highlighted-text">{{ store.paperMessage || "When you're born in a burning house, you think the whole world is on fire. But it's not." }}</span>
-
-          <p class="author">— Richard Kadrey</p>
-        </div>
-      </div>
+      <Highlight :canvasSize="1024" />
     </section>
 
     <!-- Paper Template -->

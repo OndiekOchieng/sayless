@@ -5,6 +5,10 @@ import { Download, Eye } from "lucide-vue-next";
 import { useTemplateStore } from "../../store";
 import { storeToRefs } from "pinia";
 
+const props = defineProps({
+  canvasSize: { type: Number, default: 512 },
+});
+
 const store = useTemplateStore();
 const { maxLength, paperMessage } = storeToRefs(store);
 
@@ -27,7 +31,8 @@ const downloadStatus = async () => {
 
   try {
     const dataUrl = await toPng(element, {
-      pixelRatio: 3,
+      // Use pixelRatio 1 so 1 CSS px => 1 image px; the canvasSize prop controls CSS size.
+      pixelRatio: 1,
       cacheBust: true,
     });
 
@@ -98,7 +103,8 @@ onMounted(updateTime);
   <section class="flex justify-center ">
     <div
       id="status-canvas"
-      class="paper relative flex aspect-square w-full max-w-lg items-center justify-center overflow-hidden px-10 py-16 shadow-xl sm:px-14"
+      :style="{ width: props.canvasSize + 'px', height: props.canvasSize + 'px' }"
+      class="paper relative flex items-center justify-center overflow-hidden px-10 py-16 shadow-xl sm:px-14"
     >
       <!-- Paper texture -->
       <div class="paper-texture pointer-events-none absolute inset-0" />
