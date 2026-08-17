@@ -53,9 +53,7 @@ const downloadStatus = async () => {
   link.click();
 };
 
-onMounted(() => {
-  updateTime;
-});
+onMounted(updateTime);
 </script>
 <template>
   <section

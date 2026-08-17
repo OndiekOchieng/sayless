@@ -44,9 +44,8 @@ import { links, templates } from "../data";
         <div>
           <h3 class="text-white text-lg font-bold mb-4">Templates</h3>
           <ul class="space-y-2">
-            <li class="flex flex-col">
+            <li v-for="{ name, path } in templates" :key="name" class="flex flex-col">
               <RouterLink
-                v-for="{ name, path } in templates"
                 :to="path"
                 class="text-gray-400 hover:text-green-400 capitalize"
               >

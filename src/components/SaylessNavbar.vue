@@ -25,7 +25,7 @@ const isOpen = ref(false);
         <div class="hidden md:block">
           <div class="ml-10 flex items-center space-x-8">
             <RouterLink
-              v-for="({ name, path }, _) in links"
+              v-for="({ name, path }) in links"
               activeClass="text-black font-semibold "
               class="transition"
               :key="name"
