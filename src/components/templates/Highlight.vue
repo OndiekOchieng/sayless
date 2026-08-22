@@ -319,7 +319,7 @@ onMounted(updateTime);
 
   .highlighted-text {
     font-size: clamp(1.1rem, 4vw, 2rem);
-    line-height: 1.2;
+    line-height: 1.02;
   }
 
   .author {
