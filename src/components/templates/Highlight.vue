@@ -5,13 +5,12 @@ import { Download, Eye } from "lucide-vue-next";
 import { useTemplateStore } from "../../store";
 import { storeToRefs } from "pinia";
 
-const props = defineProps({
-  canvasSize: { type: Number, default: 512 },
-});
+// const props = defineProps({
+//   canvasSize: { type: Number, default: 512 },
+// });
 
 const store = useTemplateStore();
-const { maxLength, paperMessage } = storeToRefs(store);
-
+const { maxLength, highlightMessage, author } = storeToRefs(store);
 const currentTime = ref("");
 
 const updateTime = () => {
@@ -56,32 +55,44 @@ onMounted(updateTime);
   <section
     class="space-y-6 rounded-2xl border border-white/50 bg-black p-4 sm:p-6"
   >
-    <h2 class="text-xl font-bold text-green-400">Crumpled Paper</h2>
+    <h2 class="text-xl font-bold text-green-400">Highlighted Book</h2>
 
     <div>
-      <textarea
-        v-model="paperMessage"
-        placeholder="Enter a message..."
-        rows="4"
-        :maxlength="maxLength"
-        class="w-full resize-none rounded-lg border border-white/50 bg-black/40 p-4 text-white outline-none focus:border-green-500"
-      />
+      <div>
+        <label class="block text-sm text-gray-400 mb-2 ml-1">Message</label>
+        <textarea
+          v-model="highlightMessage"
+          placeholder="Enter a message..."
+          rows="4"
+          :maxlength="maxLength"
+          class="w-full resize-none rounded-lg border border-white/50 bg-black/40 p-4 text-white outline-none focus:border-green-500"
+        />
+      </div>
+      <div class="mt-2">
+         <label class="block text-sm text-gray-400 mb-2 ml-1">Author (optional)</label>
+         <input
+           v-model="author"
+           type="text"
+           placeholder="Enter Author"
+           class="w-full bg-black/40 border border-white/50 rounded-lg p-2 outline-none focus:border-green-500 transition"
+         />
+      </div>
 
       <p
         class="text-end text-xs transition"
         :class="
-          paperMessage.length > maxLength - 20
+          highlightMessage.length > maxLength - 20
             ? 'text-red-500'
             : 'text-white/50'
         "
       >
-        {{ paperMessage.length + " / " + maxLength }}
+        {{ highlightMessage.length + " / " + maxLength }}
       </p>
     </div>
 
     <div class="flex gap-2">
       <RouterLink
-        to="/templates/paper/preview"
+        to="/templates/highlight/preview"
         class="flex w-full items-center justify-center gap-1 rounded-lg border border-white px-6 py-3 text-white transition-colors hover:border-neutral-600 hover:bg-neutral-800"
       >
         <Eye class="max-sm:hidden" />
@@ -100,11 +111,11 @@ onMounted(updateTime);
   </section>
 
   <!-- Canvas -->
-  <section class="flex justify-center ">
+  <section class="flex justify-center">
     <div
       id="status-canvas"
-      :style="{ width: props.canvasSize + 'px', height: props.canvasSize + 'px' }"
-      class="paper relative flex items-center justify-center overflow-hidden px-10 py-16 shadow-xl sm:px-14"
+      
+      class="paper max-w-lg min-w-72 aspect-square relative flex items-center justify-center overflow-hidden px-10 py-16 shadow-xl sm:px-14"
     >
       <!-- Paper texture -->
       <div class="paper-texture pointer-events-none absolute inset-0" />
@@ -113,15 +124,12 @@ onMounted(updateTime);
       <div class="paper-light pointer-events-none absolute inset-0" />
 
       <!-- Quote -->
-      <div class="relative z-10 w-full text-center ">
-        <span class="highlighted-text">
-          {{
-            paperMessage ||
-            "When you're born in a burning house, you think the whole world is on fire. But it's not."
-          }}
-        </span>
+      <div class="relative z-10 w-full text-center">
+        <p class="highlighted-text whitespace-pre-wrapoverflow-hidden">
+          {{ highlightMessage || "The quick brown fox, jumped over the fence" }}
+        </p>
 
-        <p class="author">— Richard Kadrey</p>
+        <p v-if="author" class="author">— {{ author }}</p>
       </div>
     </div>
   </section>
@@ -193,6 +201,7 @@ onMounted(updateTime);
    * than pure yellow.
    */
   background-color: rgba(205, 211, 0, 0.88);
+  /* background-color: rgba(255, 192, 203, 0.749); */
 
   /*
    * Adds subtle variations inside the marker.
@@ -216,8 +225,8 @@ onMounted(updateTime);
    * The marker extends slightly above and below the text.
    */
   /* padding: 0.025em 0.12em 0.08em; */
-  /* padding: 0 0.2em; */
-  padding-top: -0.2em;
+  padding: 0 0.2em;
+  /* padding-top: 0.2em; */
 
   /*
    * Makes the ink feel slightly translucent.
@@ -240,15 +249,12 @@ onMounted(updateTime);
   text-decoration: none;
 }
 
-
-
 /* =========================================================
    QUOTE TYPOGRAPHY
    ========================================================= */
 
 .highlighted-text {
   color: #050505;
-  
 
   /*
    * Cooper Black is very close to the character of the
@@ -260,11 +266,11 @@ onMounted(updateTime);
   /* font-family: "BilkoOpti", Georgia, "Times New Roman", serif; */
   font-family: Georgia, "Times New Roman", serif;
 
-  font-size: clamp(1.2rem, 4vw, 2.4rem);
+  font-size: clamp(1.1rem, 3.6vw, 2rem);
 
   font-weight: 500;
 
-  /* letter-spacing: -0.045em; */
+  /* letter-spacing: 0.045em; */
 
   line-height: 1.4;
 
@@ -278,7 +284,7 @@ onMounted(updateTime);
    ========================================================= */
 
 .author {
-  margin-top: 4rem;
+  margin-top: 2rem;
 
   color: #090909;
 
@@ -302,8 +308,8 @@ onMounted(updateTime);
   }
 
   .highlighted-text {
-    font-size: clamp(1.75rem, 8vw, 2.5rem);
-    line-height: 1.1;
+    font-size: clamp(1.5rem, 4vw, 2rem);
+    line-height: 1.4;
   }
 
   .author {
