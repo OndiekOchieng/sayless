@@ -272,13 +272,21 @@ const backRoute = computed(() => {
    ========================================================= */
 
 .paper {
-  background: linear-gradient(
+ 
+  /* background: linear-gradient(
     135deg,
     #e9e2d9 0%,
     #ded7ce 35%,
     #e8e1d8 65%,
     #d8d0c7 100%
-  );
+  ); */
+background: linear-gradient(
+  135deg,
+  #dfcfb8 0%,
+  #d4c1a5 35%,
+  #ddcbb2 65%,
+  #cdb594 100%
+);
 
   isolation: isolate;
 }
@@ -287,7 +295,7 @@ const backRoute = computed(() => {
 .paper-texture {
   opacity: 0.62;
 
-  background-image: url("/images/recycled.webp");
+  background-image: url("/images/old2.jpg");
 
   background-size: cover;
   background-position: center;
@@ -421,7 +429,7 @@ const backRoute = computed(() => {
 
   font-family: Georgia, "Times New Roman", serif;
 
-  font-size: clamp(1rem, 2.5vw, 1.45rem);
+  font-size: clamp(.85rem, 2.5vw, 1.25rem);
 
   font-weight: 500;
 
@@ -439,12 +447,12 @@ const backRoute = computed(() => {
   }
 
   .highlighted-text {
-    font-size: clamp(1.5rem, 4vw, 2rem);
-    line-height: 1.4;
+    font-size: clamp(1.1rem, 4vw, 2rem);
+    line-height: 1.2;
   }
 
   .author {
-    margin-top: 2.5rem;
+    margin-top: .75rem;
   }
 }
 </style>

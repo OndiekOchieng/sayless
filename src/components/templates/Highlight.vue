@@ -69,13 +69,15 @@ onMounted(updateTime);
         />
       </div>
       <div class="mt-2">
-         <label class="block text-sm text-gray-400 mb-2 ml-1">Author (optional)</label>
-         <input
-           v-model="author"
-           type="text"
-           placeholder="Enter Author"
-           class="w-full bg-black/40 border border-white/50 rounded-lg p-2 outline-none focus:border-green-500 transition"
-         />
+        <label class="block text-sm text-gray-400 mb-2 ml-1"
+          >Author (optional)</label
+        >
+        <input
+          v-model="author"
+          type="text"
+          placeholder="Enter Author"
+          class="w-full bg-black/40 border border-white/50 rounded-lg p-2 outline-none focus:border-green-500 transition"
+        />
       </div>
 
       <p
@@ -114,7 +116,6 @@ onMounted(updateTime);
   <section class="flex justify-center">
     <div
       id="status-canvas"
-      
       class="paper max-w-lg min-w-72 aspect-square relative flex items-center justify-center overflow-hidden px-10 py-16 shadow-xl sm:px-14"
     >
       <!-- Paper texture -->
@@ -141,13 +142,21 @@ onMounted(updateTime);
    ========================================================= */
 
 .paper {
-  background: linear-gradient(
+  /* background: linear-gradient(
     135deg,
     #e9e2d9 0%,
     #ded7ce 35%,
     #e8e1d8 65%,
     #d8d0c7 100%
-  );
+  ); */
+
+  background: linear-gradient(
+  135deg,
+  #dfcfb8 0%,
+  #d4c1a5 35%,
+  #ddcbb2 65%,
+  #cdb594 100%
+);
 
   isolation: isolate;
 }
@@ -156,7 +165,8 @@ onMounted(updateTime);
 .paper-texture {
   opacity: 0.62;
 
-  background-image: url("/images/recycled.webp");
+  /* background-image: url("/images/recycled.webp"); */
+  background-image: url("/images/old2.jpg");
 
   background-size: cover;
   background-position: center;
@@ -290,7 +300,7 @@ onMounted(updateTime);
 
   font-family: Georgia, "Times New Roman", serif;
 
-  font-size: clamp(1rem, 2.5vw, 1.45rem);
+  font-size: clamp(0.85rem, 2.5vw, 1.25rem);
 
   font-weight: 500;
 
@@ -308,12 +318,12 @@ onMounted(updateTime);
   }
 
   .highlighted-text {
-    font-size: clamp(1.5rem, 4vw, 2rem);
-    line-height: 1.4;
+    font-size: clamp(1.1rem, 4vw, 2rem);
+    line-height: 1.2;
   }
 
   .author {
-    margin-top: 2.5rem;
+    margin-top: 0.75rem;
   }
 }
 </style>

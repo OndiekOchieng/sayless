@@ -31,9 +31,9 @@ watch(selectTemplate, (path) =>  {
     <div class="block sm:hidden mb-4 w-full">
       <select
         v-model="selectTemplate"
-        class="w-full px-4 py-3 rounded-lg border border-gray-300 bg-white text-gray-700 font-semibold focus:ring-2 focus:ring-green-500 focus:outline-none capitalize"
+        class="w-full px-4 py-3 rounded-lg border border-gray-300 bg-white text-black font-semibold focus:ring-2 focus:ring-green-500 focus:outline-none capitalize"
       >
-        <option value="" disabled>Select a template</option>
+        <option value="" disabled>Select template</option>
         <option
           v-for="{ name} in templates"
           :key="name"
