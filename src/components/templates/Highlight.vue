@@ -31,7 +31,7 @@ const downloadStatus = async () => {
   try {
     const dataUrl = await toPng(element, {
       // Use pixelRatio 1 so 1 CSS px => 1 image px; the canvasSize prop controls CSS size.
-      pixelRatio: 1,
+      pixelRatio: 2,
       cacheBust: true,
     });
 
@@ -318,8 +318,8 @@ onMounted(updateTime);
   }
 
   .highlighted-text {
-    font-size: clamp(1.1rem, 4vw, 2rem);
-    line-height: 1.02;
+    font-size: clamp(1.3rem, 4vw, 2rem);
+    line-height: 1.3;
   }
 
   .author {

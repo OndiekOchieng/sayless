@@ -16,7 +16,7 @@ const route = useRoute();
 const downloadStatus = async () => {
   const element = document.getElementById("status-canvas");
   if (!element) return;
-  const dataUrl = await toPng(element, { pixelRatio: 3 });
+  const dataUrl = await toPng(element, { pixelRatio: 2 });
   const link = document.createElement("a");
   updateTime();
   link.download = `Sayless-${currentTime.value}.png`;
@@ -272,7 +272,6 @@ const backRoute = computed(() => {
    ========================================================= */
 
 .paper {
- 
   /* background: linear-gradient(
     135deg,
     #e9e2d9 0%,
@@ -280,7 +279,8 @@ const backRoute = computed(() => {
     #e8e1d8 65%,
     #d8d0c7 100%
   ); */
-background: linear-gradient(
+
+  background: linear-gradient(
   135deg,
   #dfcfb8 0%,
   #d4c1a5 35%,
@@ -295,6 +295,7 @@ background: linear-gradient(
 .paper-texture {
   opacity: 0.62;
 
+  /* background-image: url("/images/recycled.webp"); */
   background-image: url("/images/old2.jpg");
 
   background-size: cover;
@@ -429,7 +430,7 @@ background: linear-gradient(
 
   font-family: Georgia, "Times New Roman", serif;
 
-  font-size: clamp(.85rem, 2.5vw, 1.25rem);
+  font-size: clamp(0.85rem, 2.5vw, 1.25rem);
 
   font-weight: 500;
 
@@ -447,12 +448,12 @@ background: linear-gradient(
   }
 
   .highlighted-text {
-    font-size: clamp(1.1rem, 4vw, 2rem);
-    line-height: 1.02;
+    font-size: clamp(1.3rem, 4vw, 2rem);
+    line-height: 1.3;
   }
 
   .author {
-    margin-top: .75rem;
+    margin-top: 0.75rem;
   }
 }
 </style>

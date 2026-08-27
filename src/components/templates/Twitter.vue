@@ -44,7 +44,7 @@ const handleFileUpload = (e: Event) => {
 const downloadStatus = async () => {
   const element = document.getElementById("status-canvas");
   if (!element) return;
-  const dataUrl = await toPng(element, { pixelRatio: 3 });
+  const dataUrl = await toPng(element, { pixelRatio: 2 });
   const link = document.createElement("a");
   updateTime();
   link.download = `Sayless-${currentTime.value}.png`;
