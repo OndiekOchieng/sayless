@@ -4,10 +4,7 @@
   font-family: "MinSans";
   src: url("/fonts/MinSans-Regular.ttf");
 }
-@font-face {
-  font-family: "MinSans";
-  src: url("/fonts/MinSans-Regular.ttf");
-}
+
 
 @font-face {
   font-family: "Andelion Script";
@@ -18,11 +15,16 @@
   font-family: "Reid";
   src: url("/fonts/QEDavidReid.ttf");
 }
+
 @font-face {
   font-family: "BilkoOpti";
   src: url("/fonts/BilkoOpti-Regular.otf");
-  /* src: url("/fonts/Typewriter.ttf"); */
 }
+
+/* @font-face {
+  font-family: "NewsReader";
+  src: url("/fonts/Newsreader.ttf");
+} */
 
 body {
   font-family: "MinSans";

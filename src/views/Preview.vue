@@ -406,7 +406,7 @@ const backRoute = computed(() => {
   /* font-family: "BilkoOpti", Georgia, "Times New Roman", serif; */
   font-family: Georgia, "Times New Roman", serif;
 
-  font-size: clamp(1.1rem, 3.6vw, 2rem);
+  font-size: clamp(1.1rem, 2.2vw, 2rem);
 
   font-weight: 500;
 
@@ -430,7 +430,7 @@ const backRoute = computed(() => {
 
   font-family: Georgia, "Times New Roman", serif;
 
-  font-size: clamp(0.85rem, 2.5vw, 1.25rem);
+  font-size: clamp(.85rem, 1.4vw, 1.25rem);
 
   font-weight: 500;
 
@@ -448,12 +448,12 @@ const backRoute = computed(() => {
   }
 
   .highlighted-text {
-    font-size: clamp(1.3rem, 4vw, 2rem);
-    line-height: 1.3;
+    font-size: clamp(1.35rem, 4vw, 2rem);
+    line-height: 1.4;
   }
 
   .author {
-    margin-top: 0.75rem;
+    margin-top: .75rem;
   }
 }
 </style>
