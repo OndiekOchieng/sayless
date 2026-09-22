@@ -105,6 +105,7 @@ onMounted(updateTime);
 
     <div class="flex gap-2">
       <RouterLink
+        id="preview"
         to="/templates/poster/preview"
         class="flex w-full items-center justify-center gap-1 px-6 py-3 bg-transparent text-white border border-white rounded-lg hover:bg-neutral-800 hover:text-white hover:border-neutral-600 transition-colors"
       >
@@ -113,6 +114,7 @@ onMounted(updateTime);
       </RouterLink>
       <button
         @click="downloadStatus"
+        id="download"
         class="flex w-full justify-center items-center bg-green-500 hover:bg-green-400 text-white tracking-wider font-black py-3 px-6 rounded-xl shadow-lg shadow-green-500/20 transition-transform active:scale-95"
       >
         Download

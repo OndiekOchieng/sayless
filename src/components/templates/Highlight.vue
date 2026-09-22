@@ -94,6 +94,7 @@ onMounted(updateTime);
 
     <div class="flex gap-2">
       <RouterLink
+        id="preview"
         to="/templates/highlight/preview"
         class="flex w-full items-center justify-center gap-1 rounded-lg border border-white px-6 py-3 text-white transition-colors hover:border-neutral-600 hover:bg-neutral-800"
       >
@@ -102,6 +103,7 @@ onMounted(updateTime);
       </RouterLink>
 
       <button
+        id="download"
         @click="downloadStatus"
         class="flex w-full items-center justify-center rounded-xl bg-green-500 px-6 py-3 font-black tracking-wider text-white shadow-lg shadow-green-500/20 transition-transform hover:bg-green-400 active:scale-95"
       >
@@ -151,12 +153,12 @@ onMounted(updateTime);
   ); */
 
   background: linear-gradient(
-  135deg,
-  #dfcfb8 0%,
-  #d4c1a5 35%,
-  #ddcbb2 65%,
-  #cdb594 100%
-);
+    135deg,
+    #dfcfb8 0%,
+    #d4c1a5 35%,
+    #ddcbb2 65%,
+    #cdb594 100%
+  );
 
   isolation: isolate;
 }
@@ -298,9 +300,9 @@ onMounted(updateTime);
 
   color: #090909;
 
-  font-family:Georgia, "Times New Roman", serif;
+  font-family: Georgia, "Times New Roman", serif;
 
-  font-size: clamp(.85rem, 1.4vw, 1.25rem);
+  font-size: clamp(0.85rem, 1.4vw, 1.25rem);
 
   font-weight: 500;
 
@@ -323,7 +325,7 @@ onMounted(updateTime);
   }
 
   .author {
-    margin-top: .75rem;
+    margin-top: 0.75rem;
   }
 }
 </style>

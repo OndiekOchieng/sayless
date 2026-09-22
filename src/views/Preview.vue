@@ -169,8 +169,7 @@ const backRoute = computed(() => {
       <section class="flex justify-center">
         <div
           id="status-canvas"
-        
-          class="paper  max-w-lg min-w-72 aspect-square relative flex items-center justify-center overflow-hidden px-10 py-16 shadow-xl sm:px-14"
+          class="paper max-w-lg min-w-72 aspect-square relative flex items-center justify-center overflow-hidden px-10 py-16 shadow-xl sm:px-14"
         >
           <!-- Paper texture -->
           <div class="paper-texture pointer-events-none absolute inset-0" />
@@ -254,6 +253,7 @@ const backRoute = computed(() => {
         <span>Back</span>
       </RouterLink>
       <button
+        id="download"
         @click="downloadStatus"
         class="flex w-full justify-center items-center bg-green-500 hover:bg-green-400 text-white tracking-wider font-black py-3 px-6 rounded-xl shadow-lg shadow-green-500/20 transition-transform active:scale-95"
       >
@@ -281,12 +281,12 @@ const backRoute = computed(() => {
   ); */
 
   background: linear-gradient(
-  135deg,
-  #dfcfb8 0%,
-  #d4c1a5 35%,
-  #ddcbb2 65%,
-  #cdb594 100%
-);
+    135deg,
+    #dfcfb8 0%,
+    #d4c1a5 35%,
+    #ddcbb2 65%,
+    #cdb594 100%
+  );
 
   isolation: isolate;
 }
@@ -430,7 +430,7 @@ const backRoute = computed(() => {
 
   font-family: Georgia, "Times New Roman", serif;
 
-  font-size: clamp(.85rem, 1.4vw, 1.25rem);
+  font-size: clamp(0.85rem, 1.4vw, 1.25rem);
 
   font-weight: 500;
 
@@ -453,7 +453,7 @@ const backRoute = computed(() => {
   }
 
   .author {
-    margin-top: .75rem;
+    margin-top: 0.75rem;
   }
 }
 </style>
