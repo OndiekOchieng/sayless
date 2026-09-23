@@ -4,20 +4,16 @@ import { toPng } from "html-to-image";
 import { Download, Eye, Plus } from "lucide-vue-next";
 import { useTemplateStore } from "../../store";
 import { storeToRefs } from "pinia";
+import CanvasFrame from "../canvas/CanvasFrame.vue";
+import TwitterCanvas from "../canvas/TwitterCanvas.vue";
+import { STATUS_FORMAT } from "../canvas/formats";
 
-const currentDate = ref("");
 const currentTime = ref("");
 const store = useTemplateStore();
 const { userName, handle, maxLength, twitterMessage } = storeToRefs(store);
-let profileImg = ref("/images/johndoe.jpg");
 
 const updateTime = () => {
   const now = new Date();
-  currentDate.value = now.toLocaleDateString([], {
-    day: "numeric",
-    month: "short",
-    year: "numeric",
-  });
   currentTime.value = now.toLocaleTimeString([], {
     hour: "2-digit",
     minute: "2-digit",
@@ -30,7 +26,6 @@ const handleFileUpload = (e: Event) => {
   if (!input.files || !input.files[0]) return;
   const file = input.files[0];
   if (file) {
-    profileImg.value = URL.createObjectURL(file);
     const reader = new FileReader();
     reader.onload = () => {
       store.profileImage = reader.result as string;
@@ -44,7 +39,8 @@ const handleFileUpload = (e: Event) => {
 const downloadStatus = async () => {
   const element = document.getElementById("status-canvas");
   if (!element) return;
-  const dataUrl = await toPng(element, { pixelRatio: 2 });
+  // The canvas is already at its intrinsic export size, so pixelRatio is 1.
+  const dataUrl = await toPng(element, { pixelRatio: 1 });
   const link = document.createElement("a");
   updateTime();
   link.download = `Sayless-${currentTime.value}.png`;
@@ -65,7 +61,6 @@ onMounted(updateTime);
         <div
           class="relative w-16 h-16 rounded-full overflow-hidden border border-white/50"
         >
-          <!-- :style="{ transform: `scale(${imgScale})` }" -->
           <img
             :src="store.profileImage"
             class="w-full h-full object-cover blur-[3px]"
@@ -144,56 +139,8 @@ onMounted(updateTime);
   </section>
 
   <section class="flex flex-col items-center font-sans">
-    <div
-      id="status-canvas"
-      class="max-w-90 min-w-72 transition aspect-9/16 bg-black relative flex flex-col p-8 overflow-hidden shadow-2xl"
-    >
-      <div class="h-full flex flex-col justify-center space-y-1">
-        <div class="flex items-center gap-3">
-          <div
-            class="w-12 h-12 rounded-full overflow-hidden border border-white/10"
-          >
-            <!-- :style="{ transform: `scale(${imgScale})` }" -->
-            <img :src="store.profileImage" class="w-full h-full object-cover" />
-          </div>
-          <div>
-            <div
-              class="font-semibold leading-tight text-white opacity-80 flex items-center capitalize"
-            >
-              {{ store.userName || "Username" }}
-              <!-- <LucideCheckCircle
-                class="text-blue-400 ml-1 opacity-100"
-                :size="14"
-              /> -->
-              <img
-                src="/images/check.png"
-                width="16"
-                class="ml-0.5"
-                alt="Check mark"
-              />
-            </div>
-            <div class="text-gray-500 text-sm lowercase">
-              @{{ store.handle || "handle" }}
-            </div>
-          </div>
-        </div>
-        <div
-          class="text-xl leading-snug text-white font-normal wrap-break-word py-2"
-        >
-          <p class="whitespace-pre-wrap blur-[.3px]">
-            {{ twitterMessage || "The quick brown fox jumped over the fence." }}
-          </p>
-        </div>
-        <!-- <div class="text-gray-500 text-sm pt-2 flex justify-between">
-          <span class="flex items-center">
-            <Calendar :size="16" class="text-xs mr-1" />{{ currentDate }}</span
-          >
-          <span class="flex items-center">
-            <Clock :size="16" class="text-xs mr-1" />{{ currentTime }}</span
-          >
-          <span class="text-green-500 font-bold tracking-widest">Sayless</span>
-        </div> -->
-      </div>
-    </div>
+    <CanvasFrame v-bind="STATUS_FORMAT">
+      <TwitterCanvas />
+    </CanvasFrame>
   </section>
 </template>

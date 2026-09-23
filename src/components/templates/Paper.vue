@@ -4,10 +4,14 @@ import { toPng } from "html-to-image";
 import { Download, Eye } from "lucide-vue-next";
 import { useTemplateStore } from "../../store";
 import { storeToRefs } from "pinia";
+import CanvasFrame from "../canvas/CanvasFrame.vue";
+import PaperCanvas from "../canvas/PaperCanvas.vue";
+import { STATUS_FORMAT } from "../canvas/formats";
 
 const store = useTemplateStore();
 const { maxLength, paperMessage } = storeToRefs(store);
 const currentTime = ref("");
+
 const updateTime = () => {
   const now = new Date();
   currentTime.value = now.toLocaleTimeString([], {
@@ -20,8 +24,8 @@ const updateTime = () => {
 const downloadStatus = async () => {
   const element = document.getElementById("status-canvas");
   if (!element) return;
-
-  const dataUrl = await toPng(element, { pixelRatio: 2 });
+  // The canvas is already at its intrinsic export size, so pixelRatio is 1.
+  const dataUrl = await toPng(element, { pixelRatio: 1 });
   const link = document.createElement("a");
   updateTime();
   link.download = `Sayless-${currentTime.value}.png`;
@@ -30,25 +34,6 @@ const downloadStatus = async () => {
 };
 
 onMounted(updateTime);
-
-/* 🔑 RULED LINE SPACING = TEXT LINE HEIGHT */
-// const RULE_HEIGHT = 30;
-
-// const linesStyle = `
-//   background-image:
-//     repeating-linear-gradient(
-//       to bottom,
-//       transparent 0px,
-//       transparent ${RULE_HEIGHT - 2}px,
-//       rgba(158,193,230,0.55) ${RULE_HEIGHT - 1}px,
-//       transparent ${RULE_HEIGHT}px
-//     );
-// `;
-
-const noiseStyle = `
-  background-image:
-    url("/images/paper.jpg");
-`;
 </script>
 
 <template>
@@ -99,39 +84,8 @@ const noiseStyle = `
 
   <!-- Canvas -->
   <section class="flex justify-center">
-    <!-- :style="linesStyle" -->
-    <div
-      id="status-canvas"
-      class="relative flex justify-center items-center max-w-90 min-w-72 p-8 aspect-9/16 overflow-hidden bg-[#f6f4ef] shadow-xl transition"
-    >
-      <!-- Paper grain -->
-      <div
-        class="absolute inset-0 pointer-events-none brightness-90"
-        :style="noiseStyle"
-      />
-
-      <!-- Text -->
-      <div class="relative z-10 text-container whitespace-pre-wrap text-xl">
-        {{ paperMessage || "The quick brown fox jumped over the fence" }}
-      </div>
-    </div>
+    <CanvasFrame v-bind="STATUS_FORMAT">
+      <PaperCanvas />
+    </CanvasFrame>
   </section>
 </template>
-
-<style>
-.text-container {
-  color: #2f4fa1;
-  /* font-family:"Reid", "Patrick Hand", "Comic Neue", cursive; */
-  font-family: "Reid", "Andelion Script";
-
-  line-height: 30px;
-
-  white-space: pre-wrap;
-
-  /* 🔑 BASELINE ALIGNMENT FIX */
-  padding-top: 6px;
-
-  margin: 0;
-  font-weight: 500;
-}
-</style>
