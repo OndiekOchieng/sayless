@@ -1,36 +1,64 @@
 <script setup lang="ts">
-import { computed, ref } from "vue";
-import { useTemplateStore } from "../store";
+import { computed, ref, type Component } from "vue";
 import { toPng } from "html-to-image";
 import { ChevronLeft, Download } from "lucide-vue-next";
 import { useRoute } from "vue-router";
-import { storeToRefs } from "pinia";
+import CanvasFrame from "../components/canvas/CanvasFrame.vue";
+import MinimalCanvas from "../components/canvas/MinimalCanvas.vue";
+import TwitterCanvas from "../components/canvas/TwitterCanvas.vue";
+import PaperCanvas from "../components/canvas/PaperCanvas.vue";
+import HighlightCanvas from "../components/canvas/HighlightCanvas.vue";
+import PosterCanvas from "../components/canvas/PosterCanvas.vue";
+import {
+  STATUS_FORMAT,
+  SQUARE_FORMAT,
+  type CanvasFormat,
+} from "../components/canvas/formats";
+
+interface TemplateEntry {
+  canvas: Component;
+  format: CanvasFormat;
+  /** Layout-only wrapper classes, preserved from the previous markup. */
+  wrapperClass: string;
+}
+
+const TEMPLATES: Record<string, TemplateEntry> = {
+  minimal: {
+    canvas: MinimalCanvas,
+    format: STATUS_FORMAT,
+    wrapperClass: "flex flex-col items-center",
+  },
+  twitter: {
+    canvas: TwitterCanvas,
+    format: STATUS_FORMAT,
+    wrapperClass: "flex flex-col items-center",
+  },
+  paper: {
+    canvas: PaperCanvas,
+    format: STATUS_FORMAT,
+    wrapperClass: "flex justify-center mt-12 md:mt-10",
+  },
+  highlight: {
+    canvas: HighlightCanvas,
+    format: SQUARE_FORMAT,
+    wrapperClass: "flex justify-center mt-12 md:mt-10",
+  },
+  poster: {
+    canvas: PosterCanvas,
+    format: STATUS_FORMAT,
+    wrapperClass: "flex flex-col items-center",
+  },
+};
 
 const currentTime = ref("");
-const currentDate = ref("");
-const store = useTemplateStore();
-const { posterImage, author, highlightMessage } = storeToRefs(store);
 const route = useRoute();
 
-//
-const downloadStatus = async () => {
-  const element = document.getElementById("status-canvas");
-  if (!element) return;
-  const dataUrl = await toPng(element, { pixelRatio: 2 });
-  const link = document.createElement("a");
-  updateTime();
-  link.download = `Sayless-${currentTime.value}.png`;
-  link.href = dataUrl;
-  link.click();
-};
+const template = computed<TemplateEntry | undefined>(
+  () => TEMPLATES[route.params.name as string],
+);
 
 const updateTime = () => {
   const now = new Date();
-  currentDate.value = now.toLocaleDateString([], {
-    day: "numeric",
-    month: "short",
-    year: "numeric",
-  });
   currentTime.value = now.toLocaleTimeString([], {
     hour: "2-digit",
     minute: "2-digit",
@@ -38,25 +66,17 @@ const updateTime = () => {
   });
 };
 
-// Paper Template
-// const RULE_HEIGHT = 30;
-
-// const linesStyle = `
-//   background-image:
-//     repeating-linear-gradient(
-//       to bottom,
-//       transparent 0px,
-//       transparent ${RULE_HEIGHT - 2}px,
-//       rgba(158,193,230,0.55) ${RULE_HEIGHT - 1}px,
-//       transparent ${RULE_HEIGHT}px
-//     );
-// `;
-
-const noiseStyle = `
-  background-image:
-    url("/images/paper.jpg");
-`;
-//
+const downloadStatus = async () => {
+  const element = document.getElementById("status-canvas");
+  if (!element) return;
+  // The canvas is already at its intrinsic export size, so pixelRatio is 1.
+  const dataUrl = await toPng(element, { pixelRatio: 1 });
+  const link = document.createElement("a");
+  updateTime();
+  link.download = `Sayless-${currentTime.value}.png`;
+  link.href = dataUrl;
+  link.click();
+};
 
 const backRoute = computed(() => {
   return route.fullPath.split("/").slice(0, 3).join("/");
@@ -64,185 +84,13 @@ const backRoute = computed(() => {
 </script>
 
 <template>
-  <div class="">
-    <!-- Plain Template Preview -->
-    <section
-      v-if="$route.params.name === 'minimal'"
-      class="flex flex-col items-center font-sans"
-    >
-      <div
-        id="status-canvas"
-        class="max-w-90 min-w-72 aspect-9/16 bg-black relative flex flex-col p-6 overflow-hidden shadow-2xl"
-      >
-        <div
-          class="h-full flex flex-col justify-center items-center text-center"
-        >
-          <div class="leading-tight text-start text-white blur-[.1px]">
-            <p class="whitespace-pre-wrap text-lg">
-              {{
-                store.minimalMessage ||
-                "The quick brown fox jumped over the fence"
-              }}
-            </p>
-          </div>
-          <!-- <div
-            class="absolute bottom-10 opacity-20 text-[10px] tracking-[0.5em] uppercase text-white"
-          >
-            Sayless
-          </div> -->
-        </div>
-      </div>
+  <div>
+    <section v-if="template" :class="template.wrapperClass">
+      <CanvasFrame v-bind="template.format">
+        <component :is="template.canvas" />
+      </CanvasFrame>
     </section>
 
-    <!-- Twitter Template view -->
-    <section
-      v-if="$route.params.name === 'twitter'"
-      class="flex flex-col items-center font-sans"
-    >
-      <div
-        id="status-canvas"
-        class="max-w-90 min-w-72 aspect-9/16 bg-black relative flex flex-col p-8 overflow-hidden shadow-2xl"
-      >
-        <div class="h-full flex flex-col justify-center space-y-1">
-          <div class="flex items-center gap-3">
-            <div
-              class="w-12 h-12 rounded-full overflow-hidden border border-white/10"
-            >
-              <!-- :style="{ transform: `scale(${imgScale})` }" -->
-              <img
-                :src="store.profileImage"
-                class="w-full h-full object-cover"
-              />
-            </div>
-            <div>
-              <div
-                class="font-semibold leading-tight text-white opacity-80 flex items-center capitalize"
-              >
-                {{ store.userName || "Username" }}
-                <!-- <LucideCheckCircle
-                class="text-blue-400 ml-1 opacity-100"
-                :size="14"
-              /> -->
-                <img
-                  src="/images/check.png"
-                  width="16"
-                  class="ml-0.5"
-                  alt="Check mark"
-                />
-              </div>
-              <div class="text-gray-500 text-sm lowercase">
-                @{{ store.handle || "handle" }}
-              </div>
-            </div>
-          </div>
-          <div
-            class="text-xl leading-snug text-white font-normal wrap-break-word py-2"
-          >
-            <p class="whitespace-pre-wrap blur-[.3px]">
-              {{
-                store.twitterMessage ||
-                "The quick brown fox jumped over the fence."
-              }}
-            </p>
-          </div>
-          <!-- <div class="text-gray-500 text-sm pt-2 flex justify-between">
-          <span class="flex items-center">
-            <Calendar :size="16" class="text-xs mr-1" />{{ currentDate }}</span
-          >
-          <span class="flex items-center">
-            <Clock :size="16" class="text-xs mr-1" />{{ currentTime }}</span
-          >
-          <span class="text-green-500 font-bold tracking-widest">Sayless</span>
-        </div> -->
-        </div>
-      </div>
-    </section>
-
-    <!--  -->
-    <!-- Highlight template  -->
-    <!--  -->
-
-    <section
-      v-if="$route.params.name === 'highlight'"
-      class="flex justify-center mt-12 md:mt-10"
-    >
-      <section class="flex justify-center">
-        <div
-          id="status-canvas"
-          class="paper max-w-lg min-w-72 aspect-square relative flex items-center justify-center overflow-hidden px-10 py-16 shadow-xl sm:px-14"
-        >
-          <!-- Paper texture -->
-          <div class="paper-texture pointer-events-none absolute inset-0" />
-
-          <!-- Additional subtle paper lighting -->
-          <div class="paper-light pointer-events-none absolute inset-0" />
-
-          <!-- Quote -->
-          <div class="relative z-10 w-full text-center">
-            <span class="highlighted-text">
-              {{
-                highlightMessage ||
-                "When you're born in a burning house, you think the whole world is on fire. But it's not."
-              }}
-            </span>
-
-            <p v-if="author" class="author">— {{ author }}</p>
-          </div>
-        </div>
-      </section>
-    </section>
-
-    <!-- Paper Template -->
-    <section
-      v-if="$route.params.name === 'paper'"
-      class="flex justify-center mt-12 md:mt-10"
-    >
-      <!-- :style="linesStyle" -->
-      <div
-        id="status-canvas"
-        class="relative flex justify-center items-center max-w-90 min-w-72 aspect-9/16 p-8 overflow-hidden bg-[#f6f4ef] shadow-xl"
-      >
-        <!-- Paper grain -->
-        <div
-          class="absolute inset-0 pointer-events-none brightness-90"
-          :style="noiseStyle"
-        />
-
-        <!-- Text -->
-        <div class="relative z-10 text-container whitespace-pre-wrap text-xl">
-          {{
-            store.paperMessage || "The quick brown fox jumped over the fence"
-          }}
-        </div>
-      </div>
-    </section>
-    <!-- Poster preview -->
-    <section
-      v-if="$route.params.name === 'poster'"
-      class="flex flex-col items-center font-sans"
-    >
-      <div
-        id="status-canvas"
-        class="max-w-90 min-w-72 transition aspect-9/16 bg-black relative flex flex-col p-8 overflow-hidden shadow-2xl"
-      >
-        <div class="h-full flex flex-col justify-center space-y-1">
-          <div class="leading-snug text-white py-2">
-            <p class="whitespace-pre-wrap blur-[.3px]">
-              {{
-                store.posterMessage ||
-                "The quick brown fox jumped over the fence."
-              }}
-            </p>
-          </div>
-          <div class="flex items-center justify-center">
-            <div class="max-w-72 overflow-hidden">
-              <img :src="posterImage" class="w-full h-full object-cover" />
-            </div>
-            <div></div>
-          </div>
-        </div>
-      </div>
-    </section>
     <!-- Download and Back Button -->
     <div class="flex mx-auto gap-2 mt-4 max-w-90 min-w-72">
       <RouterLink
@@ -263,197 +111,3 @@ const backRoute = computed(() => {
     </div>
   </div>
 </template>
-<!-- Note pad styles -->
-
-<!--  -->
-<style scoped>
-/* =========================================================
-   PAPER
-   ========================================================= */
-
-.paper {
-  /* background: linear-gradient(
-    135deg,
-    #e9e2d9 0%,
-    #ded7ce 35%,
-    #e8e1d8 65%,
-    #d8d0c7 100%
-  ); */
-
-  background: linear-gradient(
-    135deg,
-    #dfcfb8 0%,
-    #d4c1a5 35%,
-    #ddcbb2 65%,
-    #cdb594 100%
-  );
-
-  isolation: isolate;
-}
-
-/* Base paper grain */
-.paper-texture {
-  opacity: 0.62;
-
-  /* background-image: url("/images/recycled.webp"); */
-  background-image: url("/images/old2.jpg");
-
-  background-size: cover;
-  background-position: center;
-  background-repeat: no-repeat;
-
-  filter: grayscale(100%) contrast(0.85) brightness(1.08);
-
-  mix-blend-mode: multiply;
-}
-
-/* Gives the paper some large-scale variation */
-.paper-light {
-  background:
-    radial-gradient(
-      ellipse at 20% 15%,
-      rgba(255, 255, 255, 0.28),
-      transparent 45%
-    ),
-    radial-gradient(ellipse at 80% 80%, rgba(90, 80, 65, 0.1), transparent 50%);
-
-  opacity: 0.7;
-}
-
-/* =========================================================
-   HIGHLIGHT
-   ========================================================= */
-
-.highlighted-text {
-  /*
-   * This is the most important part.
-   *
-   * box-decoration-break: clone means that when the text
-   * wraps, every line gets its own highlight.
-   */
-  -webkit-box-decoration-break: clone;
-  box-decoration-break: clone;
-
-  display: inline;
-
-  /*
-   * Reference color is closer to fluorescent yellow/olive
-   * than pure yellow.
-   */
-  background-color: rgba(205, 211, 0, 0.88);
-  /* background-color: rgba(255, 192, 203, 0.749); */
-
-  /*
-   * Adds subtle variations inside the marker.
-   */
-  background-image:
-    repeating-linear-gradient(
-      0deg,
-      rgba(90, 95, 0, 0.07) 0px,
-      rgba(255, 255, 0, 0.03) 1px,
-      rgba(70, 75, 0, 0.08) 2px,
-      rgba(255, 255, 0, 0.02) 4px
-    ),
-    repeating-linear-gradient(
-      90deg,
-      rgba(255, 255, 255, 0.04) 0px,
-      transparent 2px,
-      rgba(50, 50, 0, 0.05) 5px
-    );
-
-  /*
-   * The marker extends slightly above and below the text.
-   */
-  /* padding: 0.025em 0.12em 0.08em; */
-  padding: 0 0.2em;
-  /* padding-top: 0.2em; */
-
-  /*
-   * Makes the ink feel slightly translucent.
-   */
-  background-blend-mode: multiply;
-
-  /*
-   * Very subtle unevenness.
-   */
-  border-radius: 1px;
-
-  /*
-   * Important for wrapped lines.
-   */
-  line-height: 1.15;
-
-  /*
-   * Prevents the highlight from looking too digitally perfect.
-   */
-  text-decoration: none;
-}
-
-/* =========================================================
-   QUOTE TYPOGRAPHY
-   ========================================================= */
-
-.highlighted-text {
-  color: #050505;
-
-  /*
-   * Cooper Black is very close to the character of the
-   * reference image.
-   *
-   * If Cooper Black isn't installed on the machine,
-   * Georgia provides a reasonable fallback.
-   */
-  /* font-family: "BilkoOpti", Georgia, "Times New Roman", serif; */
-  font-family: Georgia, "Times New Roman", serif;
-
-  font-size: clamp(1.1rem, 2.2vw, 2rem);
-
-  font-weight: 500;
-
-  /* letter-spacing: 0.045em; */
-
-  line-height: 1.4;
-
-  text-align: center;
-
-  text-rendering: optimizeLegibility;
-}
-
-/* =========================================================
-   AUTHOR
-   ========================================================= */
-
-.author {
-  margin-top: 2rem;
-
-  color: #090909;
-
-  font-family: Georgia, "Times New Roman", serif;
-
-  font-size: clamp(0.85rem, 1.4vw, 1.25rem);
-
-  font-weight: 500;
-
-  letter-spacing: -0.02em;
-}
-
-/* =========================================================
-   MOBILE
-   ========================================================= */
-
-@media (max-width: 640px) {
-  .paper {
-    padding-left: 1.75rem;
-    padding-right: 1.75rem;
-  }
-
-  .highlighted-text {
-    font-size: clamp(1.35rem, 4vw, 2rem);
-    line-height: 1.4;
-  }
-
-  .author {
-    margin-top: 0.75rem;
-  }
-}
-</style>

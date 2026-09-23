@@ -4,6 +4,9 @@ import { toPng } from "html-to-image";
 import { Download, Eye } from "lucide-vue-next";
 import { storeToRefs } from "pinia";
 import { useTemplateStore } from "../../store";
+import CanvasFrame from "../canvas/CanvasFrame.vue";
+import MinimalCanvas from "../canvas/MinimalCanvas.vue";
+import { STATUS_FORMAT } from "../canvas/formats";
 
 const store = useTemplateStore();
 const { maxLength, minimalMessage } = storeToRefs(store);
@@ -12,10 +15,6 @@ const currentTime = ref("");
 const updateTime = () => {
   const now = new Date();
   currentTime.value = now.toLocaleTimeString([], {
-    // day: "numeric",
-    // month: "short",
-    // year: "numeric",
-    // weekday:"short",
     hour: "2-digit",
     minute: "2-digit",
     second: "numeric",
@@ -25,7 +24,8 @@ const updateTime = () => {
 const downloadStatus = async () => {
   const element = document.getElementById("status-canvas");
   if (!element) return;
-  const dataUrl = await toPng(element, { pixelRatio: 2 });
+  // The canvas is already at its intrinsic export size, so pixelRatio is 1.
+  const dataUrl = await toPng(element, { pixelRatio: 1 });
   const link = document.createElement("a");
   updateTime();
   link.download = `Sayless-${currentTime.value}.png`;
@@ -83,24 +83,8 @@ onMounted(updateTime);
   </section>
 
   <section class="flex flex-col items-center font-sans">
-    <div
-      id="status-canvas"
-      class="max-w-90 min-w-72 transition aspect-9/16 bg-black relative flex flex-col p-6 overflow-hidden shadow-2xl"
-    >
-      <div class="h-full flex flex-col justify-center items-center text-center">
-        <div class="leading-tight text-start text-white blur-[.1px]">
-          <p class="overflow-hidden whitespace-pre-wrap text-lg">
-            {{ minimalMessage || "The quick brown fox jumped over the fence." }}
-          </p>
-        </div>
-        <!-- <div
-            class="absolute bottom-10 opacity-20 text-[10px] tracking-[0.5em] uppercase text-white"
-          >
-            Sayless
-          </div> -->
-      </div>
-    </div>
+    <CanvasFrame v-bind="STATUS_FORMAT">
+      <MinimalCanvas />
+    </CanvasFrame>
   </section>
 </template>
-
-<style></style>
