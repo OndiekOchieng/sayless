@@ -1,39 +1,14 @@
 <script setup lang="ts">
-import { ref, onMounted } from "vue";
-import { toPng } from "html-to-image";
-import { Download, Eye } from "lucide-vue-next";
+import { Eye } from "lucide-vue-next";
 import { useTemplateStore } from "../../store";
 import { storeToRefs } from "pinia";
 import CanvasFrame from "../canvas/CanvasFrame.vue";
 import PaperCanvas from "../canvas/PaperCanvas.vue";
+import DownloadButton from "../canvas/DownloadButton.vue";
 import { STATUS_FORMAT } from "../canvas/formats";
 
 const store = useTemplateStore();
 const { maxLength, paperMessage } = storeToRefs(store);
-const currentTime = ref("");
-
-const updateTime = () => {
-  const now = new Date();
-  currentTime.value = now.toLocaleTimeString([], {
-    hour: "2-digit",
-    minute: "2-digit",
-    second: "numeric",
-  });
-};
-
-const downloadStatus = async () => {
-  const element = document.getElementById("status-canvas");
-  if (!element) return;
-  // The canvas is already at its intrinsic export size, so pixelRatio is 1.
-  const dataUrl = await toPng(element, { pixelRatio: 1 });
-  const link = document.createElement("a");
-  updateTime();
-  link.download = `Sayless-${currentTime.value}.png`;
-  link.href = dataUrl;
-  link.click();
-};
-
-onMounted(updateTime);
 </script>
 
 <template>
@@ -71,14 +46,7 @@ onMounted(updateTime);
         <Eye class="max-sm:hidden" />
         <span>Preview</span>
       </RouterLink>
-      <button
-        id="download"
-        @click="downloadStatus"
-        class="w-full flex justify-center items-center bg-green-500 hover:bg-green-400 text-white tracking-wider font-black py-3 px-6 rounded-xl shadow-lg shadow-green-500/20 transition-transform active:scale-95"
-      >
-        Download
-        <Download class="ml-1 max-sm:hidden" />
-      </button>
+      <DownloadButton />
     </div>
   </section>
 

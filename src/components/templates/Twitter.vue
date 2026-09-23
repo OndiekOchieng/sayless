@@ -1,54 +1,38 @@
 <script setup lang="ts">
-import { ref, onMounted } from "vue";
-import { toPng } from "html-to-image";
-import { Download, Eye, Plus } from "lucide-vue-next";
+import { ref } from "vue";
+import { Eye, Plus } from "lucide-vue-next";
 import { useTemplateStore } from "../../store";
 import { storeToRefs } from "pinia";
 import CanvasFrame from "../canvas/CanvasFrame.vue";
 import TwitterCanvas from "../canvas/TwitterCanvas.vue";
+import DownloadButton from "../canvas/DownloadButton.vue";
 import { STATUS_FORMAT } from "../canvas/formats";
+import {
+  AVATAR_MAX_DIMENSION,
+  fileToBoundedDataUrl,
+} from "../../lib/prepareUpload";
 
-const currentTime = ref("");
 const store = useTemplateStore();
 const { userName, handle, maxLength, twitterMessage } = storeToRefs(store);
+const uploadError = ref("");
 
-const updateTime = () => {
-  const now = new Date();
-  currentTime.value = now.toLocaleTimeString([], {
-    hour: "2-digit",
-    minute: "2-digit",
-    second: "2-digit",
-  });
-};
-
-const handleFileUpload = (e: Event) => {
+const handleFileUpload = async (e: Event) => {
   const input = e.target as HTMLInputElement;
-  if (!input.files || !input.files[0]) return;
-  const file = input.files[0];
-  if (file) {
-    const reader = new FileReader();
-    reader.onload = () => {
-      store.profileImage = reader.result as string;
-    };
-    reader.readAsDataURL(file);
-  } else {
-    console.error("Error uploading photo");
+  const file = input.files?.[0];
+  if (!file) return;
+
+  uploadError.value = "";
+
+  try {
+    store.profileImage = await fileToBoundedDataUrl(file, {
+      maxDimension: AVATAR_MAX_DIMENSION,
+      preservePng: true,
+    });
+  } catch (cause) {
+    console.error("Error uploading photo:", cause);
+    uploadError.value = "That image could not be used. Try another file.";
   }
 };
-
-const downloadStatus = async () => {
-  const element = document.getElementById("status-canvas");
-  if (!element) return;
-  // The canvas is already at its intrinsic export size, so pixelRatio is 1.
-  const dataUrl = await toPng(element, { pixelRatio: 1 });
-  const link = document.createElement("a");
-  updateTime();
-  link.download = `Sayless-${currentTime.value}.png`;
-  link.href = dataUrl;
-  link.click();
-};
-
-onMounted(updateTime);
 </script>
 <template>
   <section
@@ -70,6 +54,7 @@ onMounted(updateTime);
           </p>
           <input
             type="file"
+            accept="image/*"
             @input="handleFileUpload"
             class="absolute inset-0 opacity-0 cursor-pointer"
           />
@@ -77,6 +62,9 @@ onMounted(updateTime);
         <div class="flex-1">
           <p class="block text-sm capitalize text-white mb-2 font-bold">
             Add Profile Photo
+          </p>
+          <p v-if="uploadError" role="alert" class="text-xs text-red-400">
+            {{ uploadError }}
           </p>
         </div>
       </div>
@@ -127,14 +115,7 @@ onMounted(updateTime);
         <Eye class="max-sm:hidden" />
         <span>Preview</span>
       </RouterLink>
-      <button
-        id="download"
-        @click="downloadStatus"
-        class="flex w-full justify-center items-center bg-green-500 hover:bg-green-400 text-white tracking-wider font-black py-3 px-6 rounded-xl shadow-lg shadow-green-500/20 transition-transform active:scale-95"
-      >
-        Download
-        <Download class="ml-1 max-sm:hidden" />
-      </button>
+      <DownloadButton />
     </div>
   </section>
 

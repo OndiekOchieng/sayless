@@ -1,52 +1,14 @@
 <script setup lang="ts">
-import { ref, onMounted } from "vue";
-import { toPng } from "html-to-image";
-import { Download, Eye } from "lucide-vue-next";
+import { Eye } from "lucide-vue-next";
 import { useTemplateStore } from "../../store";
 import { storeToRefs } from "pinia";
 import CanvasFrame from "../canvas/CanvasFrame.vue";
 import HighlightCanvas from "../canvas/HighlightCanvas.vue";
+import DownloadButton from "../canvas/DownloadButton.vue";
 import { SQUARE_FORMAT } from "../canvas/formats";
 
 const store = useTemplateStore();
 const { maxLength, highlightMessage, author } = storeToRefs(store);
-const currentTime = ref("");
-
-const updateTime = () => {
-  const now = new Date();
-
-  currentTime.value = now.toLocaleTimeString([], {
-    hour: "2-digit",
-    minute: "2-digit",
-    second: "numeric",
-  });
-};
-
-const downloadStatus = async () => {
-  const element = document.getElementById("status-canvas");
-
-  if (!element) return;
-
-  try {
-    // The canvas is already at its intrinsic export size, so pixelRatio is 1.
-    const dataUrl = await toPng(element, {
-      pixelRatio: 1,
-      cacheBust: true,
-    });
-
-    updateTime();
-
-    const link = document.createElement("a");
-
-    link.download = `Sayless-${currentTime.value.replace(/:/g, "-")}.png`;
-    link.href = dataUrl;
-    link.click();
-  } catch (error) {
-    console.error("Failed to generate image:", error);
-  }
-};
-
-onMounted(updateTime);
 </script>
 
 <template>
@@ -101,15 +63,7 @@ onMounted(updateTime);
         <span>Preview</span>
       </RouterLink>
 
-      <button
-        id="download"
-        @click="downloadStatus"
-        class="flex w-full items-center justify-center rounded-xl bg-green-500 px-6 py-3 font-black tracking-wider text-white shadow-lg shadow-green-500/20 transition-transform hover:bg-green-400 active:scale-95"
-      >
-        Download
-
-        <Download class="ml-1 max-sm:hidden" />
-      </button>
+      <DownloadButton />
     </div>
   </section>
 
