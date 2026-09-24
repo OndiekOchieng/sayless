@@ -1,9 +1,9 @@
 <script setup lang="ts">
-import { computed, ref, type Component } from "vue";
-import { toPng } from "html-to-image";
-import { ChevronLeft, Download } from "lucide-vue-next";
+import { computed, type Component } from "vue";
+import { ChevronLeft } from "lucide-vue-next";
 import { useRoute } from "vue-router";
 import CanvasFrame from "../components/canvas/CanvasFrame.vue";
+import DownloadButton from "../components/canvas/DownloadButton.vue";
 import MinimalCanvas from "../components/canvas/MinimalCanvas.vue";
 import TwitterCanvas from "../components/canvas/TwitterCanvas.vue";
 import PaperCanvas from "../components/canvas/PaperCanvas.vue";
@@ -50,33 +50,11 @@ const TEMPLATES: Record<string, TemplateEntry> = {
   },
 };
 
-const currentTime = ref("");
 const route = useRoute();
 
 const template = computed<TemplateEntry | undefined>(
   () => TEMPLATES[route.params.name as string],
 );
-
-const updateTime = () => {
-  const now = new Date();
-  currentTime.value = now.toLocaleTimeString([], {
-    hour: "2-digit",
-    minute: "2-digit",
-    second: "numeric",
-  });
-};
-
-const downloadStatus = async () => {
-  const element = document.getElementById("status-canvas");
-  if (!element) return;
-  // The canvas is already at its intrinsic export size, so pixelRatio is 1.
-  const dataUrl = await toPng(element, { pixelRatio: 1 });
-  const link = document.createElement("a");
-  updateTime();
-  link.download = `Sayless-${currentTime.value}.png`;
-  link.href = dataUrl;
-  link.click();
-};
 
 const backRoute = computed(() => {
   return route.fullPath.split("/").slice(0, 3).join("/");
@@ -100,14 +78,7 @@ const backRoute = computed(() => {
         <ChevronLeft class="max-sm:hidden" />
         <span>Back</span>
       </RouterLink>
-      <button
-        id="download"
-        @click="downloadStatus"
-        class="flex w-full justify-center items-center bg-green-500 hover:bg-green-400 text-white tracking-wider font-black py-3 px-6 rounded-xl shadow-lg shadow-green-500/20 transition-transform active:scale-95"
-      >
-        Download
-        <Download class="ml-1 max-sm:hidden" />
-      </button>
+      <DownloadButton />
     </div>
   </div>
 </template>
